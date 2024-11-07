@@ -1,29 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     //DATA
-	ecommerceDataArr: [],
+	institutesDataArr: [],
    
    //SELECCIONES
-   //ecommerceDataObj: {},
+   //instituteDataObj: {},
     //BOOLEANS/VARIABLES
 }
-
-const ecommerceSlice = createSlice({
-    name: 'ECOMMERCE',
-    initialState,
-    reducers:{
-        SET_DATA_ECOMMERCE: (state, action) => {
-            console.log('<<REDUX-REDUCER>>:<<SET_DATA_ECOMMERCE>>', action.payload)
-            //state.ecommerceDataArr = action.payload.ecommerceDataArr;
-            state.ecommerceDataArr = action.payload
-        }
+const institutesSlice = createSlice({
+	name: 'INSTITUTES',
+	initialState,
+	reducers: {
+		SET_DATA_INSTITUTES: (state, action) => { 			
+                        console.log('<<REDUX-REDUCER>>:<<SET_DATA_INSTITUTES>>', action.payload);
+			//state.institutesDataArr = action.payload.institutesDataArr;
+			state.institutesDataArr = action.payload
+		}
     }
-})
-
+}
+);
 export const {
-    SET_DATA_ECOMMERCE,
+	SET_DATA_INSTITUTES,
     //ADD_PRODUCT_SELECTED,
     //SWITCH_STATE,
-} = ecommerceSlice.actions;
-export default ecommerceSlice.reducer;
+} = institutesSlice.actions;
+export default institutesSlice.reducer;

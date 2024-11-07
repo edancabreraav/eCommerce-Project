@@ -1,6 +1,6 @@
 import axios from 'axios';
-export async function getEcommerceAll() {
-	let result = await axios.get(`${import.meta.env.VITE_REST_API_PRODSERV_ECOMMERCE}/institutes`);
-	console.log('<<AXIOS-ECOMMERCE>>: ', result.data);
+export async function getInstitutesAll() {
+	let result = await axios.get(`${import.meta.env.VITE_REST_API_SECURITY_EDUCATION}`);
+	console.log('<<AXIOS-INSTITUTOS>>: ', result.data);
 	return result.data;
 }

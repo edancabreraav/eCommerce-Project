@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ecommerceSlice from "../slices/ecommerceSlice"
+import institutesSlice from "../slices/ecommerceSlice";
+
 //import productosSlice from "../slices/usuarios/productosSlice";
 const store = configureStore({
     reducer: {
-      ecommerceReducer: ecommerceSlice,
+      institutesReducer: institutesSlice,
       //productosSliceReducer: productosSlice,
     },
   });
