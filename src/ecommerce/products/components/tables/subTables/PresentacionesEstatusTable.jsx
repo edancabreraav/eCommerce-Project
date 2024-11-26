@@ -7,6 +7,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import AddPresentacionEstatusModal from '../../modals/subModals/AddPresentacionEstatusModal'
+import UpdatePresentacionEstatusModal from '../../modals/subModals/UpdatePresentacionEstatusModal';
+import { delOnePresentacionSubdocument } from '../../../services/remote/delete/delOnePresentacionSubdocument';
+
+
 //Arreglo para las columnas
 const ProductsColumns = [
     {
@@ -29,7 +34,9 @@ const ProductsColumns = [
   const PresentacionesEstatusTable = ({datosSeleccionados, datosSubDocSeleccionados}) => {
     const [loadingTable, setLoadingTable] = useState(true);
     const [productsData, setProductData] = useState([]);
-
+    const [addPresentacionEstatusShowModal, setAddPresentacionEstatusShowModal] = useState(false);
+    const [updatePresentacionEstatusShowModal, setUpdatePresentacionEstatusShowModal] = useState(false);
+    const [selectedEstatus, setSelectedEstatus] = useState(null);
    
     const fetchData = async () => {
       setLoadingTable(true);
@@ -52,6 +59,33 @@ const ProductsColumns = [
         fetchData();
     }, []);
 
+    const handleDelClick = async (table) => {
+      const selectedRows = table.getSelectedRowModel().flatRows;
+      if (selectedRows.length === 0) {
+          alert("Selecciona una fila para borrar");
+          return;
+      }
+      const Estatus = selectedRows[0]?.original; //Guardamos la información de la Presentación seleccionada
+      const IdEstatusOK = Estatus[Object.keys(Estatus)[0]] //Extraemos el id
+
+      // console.log(datosSeleccionados.IdProdServOK)
+      // console.log(datosSubDocSeleccionados.IdPresentaOK)
+      // console.log(IdEstatusOK)
+       await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'estatus', IdEstatusOK);
+       await fetchData();
+    }
+
+    const handleEditClick = (table) => {
+      const selectedRows = table.getSelectedRowModel().flatRows;
+      if (selectedRows.length === 0) {
+          alert("Selecciona una fila para editar");
+          return;
+      }
+      const Estatus = selectedRows[0]?.original; //Información del Estatus seleccionado
+      setSelectedEstatus(Estatus);
+      setUpdatePresentacionEstatusShowModal(true);
+    };
+
     return (
         <Box>
           <Box>
@@ -72,17 +106,17 @@ const ProductsColumns = [
                   <Stack direction="row" sx={{ m: 1 }}>
                     <Box>
                       <Tooltip title="Agregar">
-                        <IconButton >
+                        <IconButton onClick={() => setAddPresentacionEstatusShowModal(true)}>
                           <AddCircleIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Editar">
-                        <IconButton >
+                        <IconButton onClick={() => handleEditClick(table)}>
                           <EditIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Eliminar">
-                        <IconButton >
+                        <IconButton onClick={() => handleDelClick(table)}>
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
@@ -97,7 +131,29 @@ const ProductsColumns = [
                 </>
               )}
             />
-          </Box>   
+          </Box>
+          {/* M O D A L E S */}    
+          <Dialog open={addPresentacionEstatusShowModal}>
+            <AddPresentacionEstatusModal
+              addPresentacionEstatusShowModal={addPresentacionEstatusShowModal}
+              setAddPresentacionEstatusShowModal={setAddPresentacionEstatusShowModal}
+              onClose={() => setAddPresentacionEstatusShowModal(false)}
+              onPresentacionEstatusAdded={fetchData}
+              idProd = {datosSeleccionados.IdProdServOK}
+              idPres = {datosSubDocSeleccionados.IdPresentaOK}
+            />
+          </Dialog>
+          <Dialog open={updatePresentacionEstatusShowModal}>
+            <UpdatePresentacionEstatusModal
+              updatePresentacionEstatusShowModal={updatePresentacionEstatusShowModal}
+              setUpdatePresentacionEstatusShowModal={setUpdatePresentacionEstatusShowModal}
+              onClose={() => setUpdatePresentacionEstatusShowModal(false)}
+              onPresentacionEstatusUpdated={fetchData}
+              idProd = {datosSeleccionados.IdProdServOK}
+              idPres = {datosSubDocSeleccionados.IdPresentaOK}
+              estatusData={selectedEstatus}
+            />
+          </Dialog>
         </Box>
       );
   };

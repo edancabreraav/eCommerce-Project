@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 
 import ProdServNavTab from "../components/tabs/ProdServNavTab";
 import Presentaciones from "../components/tabs/PresentacionesTab";
-import ProductsTable from "../components/tables/productsTable";
+import ProductsTable from "../components/tables/ProductsTable";
 import EstatusTable from "../components/tables/EstatusTable";
 import InfoAdTable from "../components/tables/InfoAdTable";
 
