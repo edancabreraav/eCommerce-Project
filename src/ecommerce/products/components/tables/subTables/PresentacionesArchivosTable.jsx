@@ -7,6 +7,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import AddPresentacionArchivoModal from '../../modals/subModals/AddPresentacionArchivoModal';
+import UpdatePresentacionArchivoModal from '../../modals/subModals/UpdatePresentacionArchivoModal';
+import { delOnePresentacionSubdocument } from '../../../services/remote/delete/delOnePresentacionSubdocument';
+
 //Arreglo para las columnas
 const ProductsColumns = [
     {
@@ -59,6 +63,9 @@ const ProductsColumns = [
   const PresentacionesArchivosTable = ({datosSeleccionados, datosSubDocSeleccionados}) => {
     const [loadingTable, setLoadingTable] = useState(true);
     const [productsData, setProductData] = useState([]);
+    const [addPresentacionArchivoShowModal, setAddPresentacionArchivoShowModal] = useState(false);
+    const [updatePresentacionArchivoShowModal, setUpdatePresentacionArchivoShowModal] = useState(false);
+    const [selectedArchivo, setSelectedArchivo] = useState(null);
 
    
     const fetchData = async () => {
@@ -82,6 +89,30 @@ const ProductsColumns = [
         fetchData();
     }, []);
 
+    const handleDelClick = async (table) => {
+      const selectedRows = table.getSelectedRowModel().flatRows;
+      if (selectedRows.length === 0) {
+          alert("Selecciona una fila para borrar");
+          return;
+      }
+      const Archivo = selectedRows[0]?.original; //Guardamos la información del Archivo seleccionado
+      const IdArchivoOK = Archivo[Object.keys(Archivo)[0]] //Extraemos el id
+      
+       await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'archivos', IdArchivoOK);
+       await fetchData();
+    }
+
+    const handleEditClick = (table) => {
+      const selectedRows = table.getSelectedRowModel().flatRows;
+      if (selectedRows.length === 0) {
+          alert("Selecciona una fila para editar");
+          return;
+      }
+      const Archivo = selectedRows[0]?.original; //Información del Archivo seleccionado
+      setSelectedArchivo(Archivo);
+      setUpdatePresentacionArchivoShowModal(true);
+    };
+
     return (
         <Box>
           <Box>
@@ -102,17 +133,17 @@ const ProductsColumns = [
                   <Stack direction="row" sx={{ m: 1 }}>
                     <Box>
                       <Tooltip title="Agregar">
-                        <IconButton >
+                        <IconButton onClick={() => setAddPresentacionArchivoShowModal(true)}>
                           <AddCircleIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Editar">
-                        <IconButton >
+                        <IconButton onClick={() => handleEditClick(table)}>
                           <EditIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Eliminar">
-                        <IconButton >
+                        <IconButton onClick={() => handleDelClick(table)}>
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
@@ -127,7 +158,29 @@ const ProductsColumns = [
                 </>
               )}
             />
-          </Box>   
+          </Box>
+          {/* M O D A L E S */}    
+          <Dialog open={addPresentacionArchivoShowModal}>
+            <AddPresentacionArchivoModal
+              addPresentacionArchivoShowModal={addPresentacionArchivoShowModal}
+              setAddPresentacionArchivoShowModal={setAddPresentacionArchivoShowModal}
+              onClose={() => setAddPresentacionArchivoShowModal(false)}
+              onPresentacionArchivoAdded={fetchData}
+              idProd = {datosSeleccionados.IdProdServOK}
+              idPres = {datosSubDocSeleccionados.IdPresentaOK}
+            />
+          </Dialog>
+          <Dialog open={updatePresentacionArchivoShowModal}>
+            <UpdatePresentacionArchivoModal
+              updatePresentacionArchivoShowModal={updatePresentacionArchivoShowModal}
+              setUpdatePresentacionArchivoShowModal={setUpdatePresentacionArchivoShowModal}
+              onClose={() => setUpdatePresentacionArchivoShowModal(false)}
+              onPresentacionArchivoUpdated={fetchData}
+              idProd = {datosSeleccionados.IdProdServOK}
+              idPres = {datosSubDocSeleccionados.IdPresentaOK}
+              archivoData={selectedArchivo}
+            />
+          </Dialog> 
         </Box>
       );
   };
