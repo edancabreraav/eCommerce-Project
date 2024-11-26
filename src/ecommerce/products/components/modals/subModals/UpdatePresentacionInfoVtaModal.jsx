@@ -6,10 +6,10 @@ import SaveIcon from "@mui/icons-material/Save";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import {PresentacionEstatusValues} from '../../../helpers/PresentacionEstatusValues'
+import {InfoVtaValues} from '../../../helpers/PresentacionInfoVtaValues'
 import {UpdateOnePresentacionSubdocument} from '../../../services/remote/put/UpdateOnePresentacionSubdocument'
 
-const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, setUpdatePresentacionEstatusShowModal, onPresentacionEstatusUpdated, idProd, idPres, estatusData }) => {
+const UpdatePresentacionInfoVtaModal = ({ updatePresentacionInfoVtaShowModal, setUpdatePresentacionInfoVtaShowModal, onPresentacionInfoVtaUpdated, idProd, idPres, infovtaData }) => {
     const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
     const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
     const [Loading, setLoading] = useState(false);
@@ -17,14 +17,18 @@ const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, se
     //Instancia de formik para la configuración de formularios
     const formik = useFormik({
         initialValues: {
-            IdTipoEstatusOK: estatusData.IdTipoEstatusOK || "",
-            Actual: estatusData.Actual || "",
-            Observacion: estatusData.Observacion || "",
+            IdEtiquetaOK: infovtaData.IdEtiquetaOK || "",
+            IdEtiqueta: infovtaData.IdEtiqueta || "",
+            Valor: infovtaData.Valor || "",
+            IdTipoSeccionOK: infovtaData.IdTipoSeccionOK || "",
+            Secuencia: infovtaData.Secuencia || "",
         },
         validationSchema: Yup.object({
-          IdTipoEstatusOK: Yup.string().required("Campo requerido"),
-          Actual: Yup.string().required("Campo requerido"),
-          Observacion: Yup.string().required("Campo requerido"),
+          IdEtiquetaOK: Yup.string().required("Campo requerido"),
+          IdEtiqueta: Yup.string().required("Campo requerido"),
+          Valor: Yup.string().required("Campo requerido"),
+          IdTipoSeccionOK: Yup.string().required("Campo requerido"),
+          Secuencia: Yup.string().required("Campo requerido")
         }),
         onSubmit: async (values) => {
             setLoading(true);
@@ -34,13 +38,13 @@ const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, se
             setMensajeExitoAlert(null);
 
             try {
-                const Estatus = PresentacionEstatusValues(values);
-                await UpdateOnePresentacionSubdocument (idProd, idPres,'estatus', Estatus.IdTipoEstatusOK, Estatus)
-                setMensajeExitoAlert("Estatus actualizado correctamente");
-                onPresentacionEstatusUpdated();
+                const InfoVta = InfoVtaValues(values);
+                await UpdateOnePresentacionSubdocument (idProd, idPres,'info_vta', InfoVta.IdEtiquetaOK, InfoVta)
+                setMensajeExitoAlert("Info_vta actualizada correctamente");
+                onPresentacionInfoVtaUpdated();
             } catch (error) {
                 setMensajeExitoAlert(null);
-                setMensajeErrorAlert("No se pudo actualizar el Estatus");
+                setMensajeErrorAlert("No se pudo actualizar la información");
             }
             setLoading(false);
         },
@@ -54,14 +58,14 @@ const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, se
     };
     return (
         <Dialog
-          open={updatePresentacionEstatusShowModal}
-          onClose={() => setUpdatePresentacionEstatusShowModal(false)}
+          open={updatePresentacionInfoVtaShowModal}
+          onClose={() => setUpdatePresentacionInfoVtaShowModal(false)}
           fullWidth
         >
           <form onSubmit={formik.handleSubmit}>
             <DialogTitle>
               <Typography component="h6">
-                <strong>Actualizar Estatus</strong>
+                <strong>Actualizar Información de venta</strong>
               </Typography>
             </DialogTitle>
             <DialogContent
@@ -70,39 +74,59 @@ const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, se
             >
               {/* Campos de captura */}
               <TextField
-                id="IdTipoEstatusOK"
-                label="IdTipoEstatusOK*"
-                value={formik.values.IdTipoEstatusOK}
+                id="IdEtiquetaOK"
+                label="IdEtiquetaOK*"
+                value={formik.values.IdEtiquetaOK}
                 {...commonTextFieldProps}
                 error={
-                  formik.touched.IdTipoEstatusOK && Boolean(formik.errors.IdTipoEstatusOK)
+                  formik.touched.IdEtiquetaOK && Boolean(formik.errors.IdEtiquetaOK)
                 }
                 helperText={
-                  formik.touched.IdTipoEstatusOK && formik.errors.IdTipoEstatusOK
+                  formik.touched.IdEtiquetaOK && formik.errors.IdEtiquetaOK
                 }
                 disabled
               />
               <TextField
-                id="Actual"
-                label="Actual*"
-                value={formik.values.Actual}
+                id="IdEtiqueta"
+                label="IdEtiqueta*"
+                value={formik.values.IdEtiqueta}
                 {...commonTextFieldProps}
                 error={
-                  formik.touched.Actual && Boolean(formik.errors.Actual)
+                  formik.touched.IdEtiqueta && Boolean(formik.errors.IdEtiqueta)
                 }
                 helperText={
-                  formik.touched.Actual && formik.errors.Actual
+                  formik.touched.IdEtiqueta && formik.errors.IdEtiqueta
                 }
               />
               <TextField
-                id="Observacion"
-                label="Observacion*"
-                value={formik.values.Observacion}
+                id="Valor"
+                label="Valor*"
+                value={formik.values.Valor}
                 {...commonTextFieldProps}
                 error={
-                  formik.touched.Observacion && Boolean(formik.errors.Observacion)
+                  formik.touched.Valor && Boolean(formik.errors.Valor)
                 }
-                helperText={formik.touched.Observacion && formik.errors.Observacion}
+                helperText={formik.touched.Valor && formik.errors.Valor}
+              />
+              <TextField
+                id="IdTipoSeccionOK"
+                label="IdTipoSeccionOK*"
+                value={formik.values.IdTipoSeccionOK}
+                {...commonTextFieldProps}
+                error={
+                  formik.touched.IdTipoSeccionOK && Boolean(formik.errors.IdTipoSeccionOK)
+                }
+                helperText={formik.touched.IdTipoSeccionOK && formik.errors.IdTipoSeccionOK}
+              />
+              <TextField
+                id="Secuencia"
+                label="Secuencia*"
+                value={formik.values.Secuencia}
+                {...commonTextFieldProps}
+                error={
+                  formik.touched.Secuencia && Boolean(formik.errors.Secuencia)
+                }
+                helperText={formik.touched.Secuencia && formik.errors.Secuencia}
               />
             </DialogContent>
             {/* Acciones de usuario */}
@@ -128,7 +152,7 @@ const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, se
                 loadingPosition="start"
                 startIcon={<CloseIcon />}
                 variant="outlined"
-                onClick={() => setUpdatePresentacionEstatusShowModal(false)}
+                onClick={() => setUpdatePresentacionInfoVtaShowModal(false)}
               >
                 <span>CERRAR</span>
               </LoadingButton>
@@ -140,7 +164,7 @@ const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, se
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setUpdatePresentacionEstatusShowModal(false)}
+                onClick={() => setUpdatePresentacionInfoVtaShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>
@@ -150,4 +174,4 @@ const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, se
         </Dialog>
       );
 }
-export default UpdatePresentacionEstatusModal;
+export default UpdatePresentacionInfoVtaModal;

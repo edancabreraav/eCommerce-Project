@@ -7,6 +7,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import AddPresentacionInfoVtaModal from '../../modals/subModals/AddPresentacionInfoVtaModal';
+import UpdatePresentacionInfoVtaModal from '../../modals/subModals/UpdatePresentacionInfoVtaModal';
+import { delOnePresentacionSubdocument } from '../../../services/remote/delete/delOnePresentacionSubdocument';
+
 //Arreglo para las columnas
 const ProductsColumns = [
     {
@@ -39,6 +43,9 @@ const ProductsColumns = [
   const PresentacionesInfoVtaTable = ({datosSeleccionados, datosSubDocSeleccionados}) => {
     const [loadingTable, setLoadingTable] = useState(true);
     const [productsData, setProductData] = useState([]);
+    const [addPresentacionInfoVtaShowModal, setAddPresentacionInfoVtaShowModal] = useState(false);
+    const [updatePresentacionInfoVtaShowModal, setUpdatePresentacionInfoVtaShowModal] = useState(false);
+    const [selectedInfoVta, setSelectedInfoVta] = useState(null);
 
    
     const fetchData = async () => {
@@ -49,8 +56,8 @@ const ProductsColumns = [
             return;
         }
         const Product = await getOneProduct(datosSeleccionados.IdProdServOK);
-        const ProductEstatus = Product.presentaciones[datosSubDocSeleccionados.index].info_vta;
-        setProductData(ProductEstatus);
+        const ProductInfoVta = Product.presentaciones[datosSubDocSeleccionados.index].info_vta;
+        setProductData(ProductInfoVta);
         setLoadingTable(false);
     } catch (error) {
         console.error("Error al obtener los productos en useEffect de EstatusTable:", error);
@@ -61,6 +68,30 @@ const ProductsColumns = [
     useEffect(() => {
         fetchData();
     }, []);
+
+    const handleDelClick = async (table) => {
+      const selectedRows = table.getSelectedRowModel().flatRows;
+      if (selectedRows.length === 0) {
+          alert("Selecciona una fila para borrar");
+          return;
+      }
+      const InfoVta = selectedRows[0]?.original; //Guardamos la información de la Presentación seleccionada
+      const IdEtiquetaOK = InfoVta[Object.keys(InfoVta)[0]] //Extraemos el id
+
+       await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'info_vta', IdEtiquetaOK);
+       await fetchData();
+    }
+
+    const handleEditClick = (table) => {
+      const selectedRows = table.getSelectedRowModel().flatRows;
+      if (selectedRows.length === 0) {
+          alert("Selecciona una fila para editar");
+          return;
+      }
+      const InfoVta = selectedRows[0]?.original; //Información de la información seleccionada
+      setSelectedInfoVta(InfoVta);
+      setUpdatePresentacionInfoVtaShowModal(true);
+    };
 
     return (
         <Box>
@@ -82,17 +113,17 @@ const ProductsColumns = [
                   <Stack direction="row" sx={{ m: 1 }}>
                     <Box>
                       <Tooltip title="Agregar">
-                        <IconButton >
+                        <IconButton onClick={() => setAddPresentacionInfoVtaShowModal(true)}>
                           <AddCircleIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Editar">
-                        <IconButton >
+                        <IconButton onClick={() => handleEditClick(table)}>
                           <EditIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Eliminar">
-                        <IconButton >
+                        <IconButton onClick={() => handleDelClick(table)}>
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
@@ -107,7 +138,29 @@ const ProductsColumns = [
                 </>
               )}
             />
-          </Box>   
+          </Box>
+          {/* M O D A L E S */}    
+          <Dialog open={addPresentacionInfoVtaShowModal}>
+            <AddPresentacionInfoVtaModal
+              addPresentacionInfoVtaShowModal={addPresentacionInfoVtaShowModal}
+              setAddPresentacionInfoVtaShowModal={setAddPresentacionInfoVtaShowModal}
+              onClose={() => setAddPresentacionInfoVtaShowModal(false)}
+              onPresentacionInfoVtaAdded={fetchData}
+              idProd = {datosSeleccionados.IdProdServOK}
+              idPres = {datosSubDocSeleccionados.IdPresentaOK}
+            />
+          </Dialog>
+          <Dialog open={updatePresentacionInfoVtaShowModal}>
+            <UpdatePresentacionInfoVtaModal
+              updatePresentacionInfoVtaShowModal={updatePresentacionInfoVtaShowModal}
+              setUpdatePresentacionInfoVtaShowModal={setUpdatePresentacionInfoVtaShowModal}
+              onClose={() => setUpdatePresentacionInfoVtaShowModal(false)}
+              onPresentacionInfoVtaUpdated={fetchData}
+              idProd = {datosSeleccionados.IdProdServOK}
+              idPres = {datosSubDocSeleccionados.IdPresentaOK}
+              infovtaData={selectedInfoVta}
+            />
+          </Dialog>
         </Box>
       );
   };
