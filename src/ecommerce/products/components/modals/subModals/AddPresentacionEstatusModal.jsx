@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Dialog, DialogContent, DialogTitle, DialogActions, Typography, TextField, Box, Alert } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogTitle, DialogActions, Typography, TextField, Box, Alert, Select, MenuItem } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
@@ -8,11 +8,13 @@ import * as Yup from "yup";
 
 import {PresentacionEstatusValues} from '../../../helpers/PresentacionEstatusValues'
 import {AddOnePresentacionSubdocument} from '../../../services/remote/post/AddOnePresentacionSubdocument'
+import { getOneProduct } from "../../../services/remote/get/getOneProduct";
 
 const AddPresentacionEstatusModal = ({ addPresentacionEstatusShowModal, setAddPresentacionEstatusShowModal, onPresentacionEstatusAdded, idProd, idPres }) => {
     const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
     const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
     const [Loading, setLoading] = useState(false);
+    const [opciones, setOpciones] = useState([]);
 
     //Instancia de formik para la configuración de formularios
     const formik = useFormik({
@@ -52,6 +54,20 @@ const AddPresentacionEstatusModal = ({ addPresentacionEstatusShowModal, setAddPr
         margin: "dense",
         disabled: !!mensajeExitoAlert,
     };
+
+    const fetchOpciones = async (idProd) => {
+      try {
+        const response = await getOneProduct(idProd);
+        setOpciones(response.estatus);
+      } catch (error) {
+        console.error("Error obteniendo opciones: ", error);
+      }
+  };
+
+  useEffect(() => {
+    fetchOpciones(idProd);
+  }, [idProd]);
+
     return (
         <Dialog
           open={addPresentacionEstatusShowModal}
@@ -69,18 +85,29 @@ const AddPresentacionEstatusModal = ({ addPresentacionEstatusShowModal, setAddPr
               dividers
             >
               {/* Campos de captura */}
-              <TextField
+              
+              <Select
                 id="IdTipoEstatusOK"
-                label="IdTipoEstatusOK*"
-                value={formik.values.IdTipoEstatusOK}
-                {...commonTextFieldProps}
+                value={formik.values.IdTipoEstatusOK || ""}
+                onChange={ (event) => formik.setFieldValue("IdTipoEstatusOK", event.target.value) }
+                fullWidth
+                displayEmpty
                 error={
-                  formik.touched.IdTipoEstatusOK && Boolean(formik.errors.IdTipoEstatusOK)
-                }
-                helperText={
-                  formik.touched.IdTipoEstatusOK && formik.errors.IdTipoEstatusOK
-                }
-              />
+                    formik.touched.IdTipoEstatusOK &&
+                    Boolean(formik.errors.IdTipoEstatusOK)
+                }>
+                <MenuItem value="" disabled>
+                    Seleccione una opción
+                </MenuItem>
+                {opciones.map((opcion) => (
+                    <MenuItem 
+                        key={opcion.IdTipoEstatusOK} 
+                        value={opcion.IdTipoEstatusOK}>
+                        {opcion.IdTipoEstatusOK}
+                    </MenuItem>
+                ))}
+              </Select>
+
               <TextField
                 id="Actual"
                 label="Actual*"

@@ -122,6 +122,7 @@ const ProductsColumns = [
              initialState={{ density: "compact", showGlobalFilter: true }}
              state={{ isLoading: loadingTable }}
              enableRowSelection={true}
+             enableMultiRowSelection={false}
              muiTableBodyRowProps={({row}) => ({
               onClick: row.getToggleSelectedHandler(),
               // onClickCapture: () => sendDataRow(row),
