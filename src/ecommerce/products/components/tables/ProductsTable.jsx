@@ -15,17 +15,17 @@ import UpdateProductModal from '../modals/UpdateProductModal';
 const ProductsColumns = [
     {
       accessorKey: "IdProdServOK",
-      header: "ID OK",
+      header: "ID PRODSERV OK",
       size: 30, //small column
     },
     {
       accessorKey: "IdProdServBK",
-      header: "ID BK",
+      header: "ID PRODSERV BK",
       size: 30, //small column
     },
     {
       accessorKey: "DesProdServ",
-      header: "PRODUCTO",
+      header: "DES PROD SERV",
       size: 150, //small column
     },
     {
