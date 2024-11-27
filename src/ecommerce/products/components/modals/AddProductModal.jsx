@@ -45,7 +45,10 @@ const AddProductModal = ({ AddProductShowModal, setAddProductShowModal, onProduc
         const Product = ProductsValues(values);
         await AddOneProduct(Product)
         setMensajeExitoAlert("Producto creado y guardado correctamente");
-        onProductAdded();
+        setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+          setAddProductShowModal(false); // Cerrar el modal después del retraso
+          onProductAdded(); // Actualizar lista de productos
+        }, 1000);
       } catch (e) {
         setMensajeExitoAlert(null);
         setMensajeErrorAlert("No se pudo crear el Producto");
@@ -169,7 +172,6 @@ const AddProductModal = ({ AddProductShowModal, setAddProductShowModal, onProduc
             variant="contained"
             type="submit"
             disabled={!!mensajeExitoAlert}
-            onClick={() => setAddProductShowModal(false)}
             loading={Loading}
           >
             <span>GUARDAR</span>
