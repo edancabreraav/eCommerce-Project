@@ -46,6 +46,7 @@ const ProductsColumns = [
     const [addPresentacionInfoVtaShowModal, setAddPresentacionInfoVtaShowModal] = useState(false);
     const [updatePresentacionInfoVtaShowModal, setUpdatePresentacionInfoVtaShowModal] = useState(false);
     const [selectedInfoVta, setSelectedInfoVta] = useState(null);
+    const [selectedProduct, setselectedProduct] = useState(null);
 
     const [deletePresentacionInfoVtaShowModal, setDeletePresentacionInfoVtaShowModal] = useState(false);
     const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
@@ -61,6 +62,7 @@ const ProductsColumns = [
         }
         const Product = await getOneProduct(datosSeleccionados.IdProdServOK);
         const ProductInfoVta = Product.presentaciones[datosSubDocSeleccionados.index].info_vta;
+        setselectedProduct(Product.IdProdServBK);
         setProductData(ProductInfoVta);
         setLoadingTable(false);
     } catch (error) {
@@ -137,6 +139,7 @@ const ProductsColumns = [
                           <InfoIcon />
                         </IconButton>
                       </Tooltip>
+                      <text class="PSeleccionado">Producto seleccionado: <b>{selectedProduct}</b></text>
                     </Box>
                   </Stack>
                   {/* ------- ACTIONS TOOLBAR END ------ */}

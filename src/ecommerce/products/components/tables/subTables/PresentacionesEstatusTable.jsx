@@ -37,6 +37,7 @@ const ProductsColumns = [
     const [addPresentacionEstatusShowModal, setAddPresentacionEstatusShowModal] = useState(false);
     const [updatePresentacionEstatusShowModal, setUpdatePresentacionEstatusShowModal] = useState(false);
     const [selectedEstatus, setSelectedEstatus] = useState(null);
+    const [selectedProduct, setselectedProduct] = useState(null);
 
     const [deletePresentacionEstatusShowModal, setDeletePresentacionEstatusShowModal] = useState(false);
     const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
@@ -51,6 +52,7 @@ const ProductsColumns = [
         }
         const Product = await getOneProduct(datosSeleccionados.IdProdServOK);
         const ProductEstatus = Product.presentaciones[datosSubDocSeleccionados.index].estatus;
+        setselectedProduct(Product.IdProdServBK);
         setProductData(ProductEstatus);
         setLoadingTable(false);
     } catch (error) {
@@ -127,6 +129,7 @@ const ProductsColumns = [
                           <InfoIcon />
                         </IconButton>
                       </Tooltip>
+                      <text class="PSeleccionado">Producto seleccionado: <b>{selectedProduct}</b></text>
                     </Box>
                   </Stack>
                   {/* ------- ACTIONS TOOLBAR END ------ */}

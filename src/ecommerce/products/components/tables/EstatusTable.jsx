@@ -36,11 +36,12 @@ const ProductsColumns = [
     const [addEstatusShowModal, setAddEstatusShowModal] = useState(false);
     const [updateEstatusShowModal, setUpdateEstatusShowModal] = useState(false);
     const [selectedEstatus, setSelectedEstatus] = useState(null);
+    const [selectedProduct, setselectedProduct] = useState(null);
 
     const [deleteEstatusShowModal, setDeleteEstatusShowModal] = useState(false);
     const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
     const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
-   
+
     const fetchData = async () => {
       setLoadingTable(true);
       try {
@@ -50,6 +51,7 @@ const ProductsColumns = [
         }
         const Product = await getOneProduct(datosSeleccionados.IdProdServOK);
         const ProductEstatus = Product.estatus;
+        setselectedProduct(Product.IdProdServBK);
         setProductData(ProductEstatus);
         setLoadingTable(false);
     } catch (error) {
@@ -128,6 +130,7 @@ const ProductsColumns = [
                           <InfoIcon />
                         </IconButton>
                       </Tooltip>
+                        <text class="PSeleccionado">Producto seleccionado: <b>{selectedProduct}</b></text>
                     </Box>
                   </Stack>
                   {/* ------- ACTIONS TOOLBAR END ------ */}

@@ -70,3 +70,9 @@ head {
     transition: opacity 200ms;
     transition-delay: 200ms;
   }
+
+  .PSeleccionado{
+    font-family:"Roboto", sans-serif;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+  }
