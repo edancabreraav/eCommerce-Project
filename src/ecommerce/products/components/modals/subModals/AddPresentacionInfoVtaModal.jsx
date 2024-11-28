@@ -41,7 +41,10 @@ const AddPresentacionInfoVtaModal = ({ addPresentacionInfoVtaShowModal, setAddPr
                 const InfoVta = InfoVtaValues(values);
                 await AddOnePresentacionSubdocument (idProd, idPres,'info_vta', InfoVta)
                 setMensajeExitoAlert("Info_vta creada y guardada correctamente");
-                onPresentacionInfoVtaAdded();
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setAddPresentacionInfoVtaShowModal(false); // Cerrar el modal después del retraso
+                  onPresentacionInfoVtaAdded(); // Actualizar tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo crear la información");
@@ -163,7 +166,6 @@ const AddPresentacionInfoVtaModal = ({ addPresentacionInfoVtaShowModal, setAddPr
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setAddPresentacionInfoVtaShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>
