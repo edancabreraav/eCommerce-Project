@@ -43,7 +43,10 @@ const UpdateProductModal = ({ UpdateProductShowModal, setUpdateProductShowModal,
       try {
         const updatedProduct = await UpdateOneProduct(values.IdProdServOK, values)
         setMensajeExitoAlert("Producto actualizado correctamente");
-        onProductUpdated(updatedProduct);
+        setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+          setUpdateProductShowModal(false); // Cerrar el modal después del retraso
+          onProductUpdated(updatedProduct); // Actualizar lista de productos
+        }, 2000);
       } catch (e) {
         setMensajeExitoAlert(null);
         setMensajeErrorAlert("No se pudo actualizar el Producto");
@@ -168,7 +171,6 @@ const UpdateProductModal = ({ UpdateProductShowModal, setUpdateProductShowModal,
             variant="contained"
             type="submit"
             disabled={!!mensajeExitoAlert}
-            onClick={() => setUpdateProductShowModal(false)}
             loading={Loading}
           >
             <span>GUARDAR</span>
