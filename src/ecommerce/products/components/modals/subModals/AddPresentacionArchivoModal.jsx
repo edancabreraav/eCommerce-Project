@@ -38,7 +38,7 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
 
             DesArchivo: Yup.string(), //Puede estar vacio
 
-            RutaArchivo: Yup.string().required("Campo requerido") // Ruta de firebase que la verdad se la pedí a chatgpt
+            RutaArchivo: Yup.string().required("Campo requerido") // Ruta de firebase 
                                       .matches(  
                                       /^https:\/\/firebasestorage\.googleapis\.com\/v0\/b\/[\w.-]+\/o\/[\w%./-]+(\?alt=media&token=[\w-]+)?$/,
                                       'La ruta del archivo debe ser una URL válida de Firebase Storage'),
