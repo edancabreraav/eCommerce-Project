@@ -37,7 +37,10 @@ const AddPresentacionEstatusModal = ({ addPresentacionEstatusShowModal, setAddPr
                 const Estatus = PresentacionEstatusValues(values);
                 await AddOnePresentacionSubdocument (idProd, idPres,'estatus', Estatus)
                 setMensajeExitoAlert("Estatus creado y guardado correctamente");
-                onPresentacionEstatusAdded();
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setAddPresentacionEstatusShowModal(false); // Cerrar el modal después del retraso
+                  onPresentacionEstatusAdded(); // Actualizar tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo crear el Estatus");
@@ -139,7 +142,6 @@ const AddPresentacionEstatusModal = ({ addPresentacionEstatusShowModal, setAddPr
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setAddPresentacionEstatusShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>
