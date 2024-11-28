@@ -52,6 +52,7 @@ const ProductsColumns = [
     const [updatePresentacionShowModal, setUpdatePresentacionShowModal] = useState(false);
     const [selectedPresentacion, setSelectedPresentacion] = useState(null);
     const [selectedProduct, setselectedProduct] = useState(null);
+    const [codigoBarras, setCodigoBarras] = useState(null);
 
     const [deletePresentacionShowModal, setDeletePresentacionShowModal] = useState(false);
     const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
@@ -66,7 +67,9 @@ const ProductsColumns = [
             return;
         }
         const Product = await getOneProduct(datosSeleccionados.IdProdServOK);
+        console.log('prrrprprpro: ', Product);
         setselectedProduct(Product.IdProdServBK);
+        setCodigoBarras(Product.CodigoBarras);
         const ProductEstatus = Product.presentaciones;
         setProductData(ProductEstatus);
         setLoadingTable(false);
@@ -171,6 +174,8 @@ const ProductsColumns = [
               onClose={() => setAddPresentacionShowModal(false)}
               onPresentacionAdded={fetchData}
               idProd = {datosSeleccionados.IdProdServOK}
+              idProdBK = {selectedProduct}
+              CB = {codigoBarras}
             />
           </Dialog>
           <Dialog open={updatePresentacionShowModal}>

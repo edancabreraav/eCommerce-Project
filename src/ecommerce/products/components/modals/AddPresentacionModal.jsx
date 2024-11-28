@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import {PresentacionesValues} from '../../helpers/PresentacionesValues'
 import {AddOneSubdocument} from '../../services/remote/post/AddOneSubdocument'
 
-const AddPresentacionModal = ({ addPresentacionShowModal, setAddPresentacionShowModal, onPresentacionAdded, idProd }) => {
+const AddPresentacionModal = ({ addPresentacionShowModal, setAddPresentacionShowModal, onPresentacionAdded, idProd, idProdBK, CB }) => {
     const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
     const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
     const [Loading, setLoading] = useState(false);
@@ -17,9 +17,9 @@ const AddPresentacionModal = ({ addPresentacionShowModal, setAddPresentacionShow
     //Instancia de formik para la configuración de formularios
     const formik = useFormik({
         initialValues: {
-            IdPresentaOK: "",
-            IdPresentaBK: "",
-            CodigoBarras: "",
+            IdPresentaOK: idProd + "-",
+            IdPresentaBK: idProdBK + "-",
+            CodigoBarras: CB.slice(0, 10),
             DesPresenta: "",
             Indice: "",
             Principal: "",
