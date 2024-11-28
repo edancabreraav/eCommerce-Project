@@ -1,0 +1,272 @@
+{
+  "_id": { "$oid": "64e148b5ae58fe961ee2f297" },
+  "IdProdServOK": "9001-000000000001",
+  "IdProdServBK": "HPZBOOK-COREi7",
+  "CodigoBarras": "9001111111111",
+  "DesProdServ": "LapTop HP ZBOOK Firefly G8, Core i7, Full HD",
+  "Indice": "Accesorios-Computadoras-ElectrodomÃ©sticos-Nuevo-64 GB",
+  "estatus": [
+    {
+      "IdTipoEstatusOK": "IdEstatusCatProdServ-IdVigente",
+      "Actual": "S",
+      "Observacion": "Ninguna"
+    },
+    {
+      "IdTipoEstatusOK": "IdEstatusCatProdServ-IdBaja",
+      "Actual": "N",
+      "Observacion": "Ya no hay existencias"
+    },
+    {
+      "IdTipoEstatusOK": "IdEstatusCatProdServ-IdVigente",
+      "Actual": "N",
+      "Observacion": "retr"
+    },
+    {
+      "IdTipoEstatusOK": "IdEstatusCatProdServ-IdNoVigente",
+      "Actual": "N",
+      "Observacion": ""
+    },
+    {
+      "IdTipoEstatusOK": "IdEstatusCatProdServ-IdBaja",
+      "Actual": "N",
+      "Observacion": ""
+    },
+    {
+      "IdTipoEstatusOK": "IdEstatusCatProdServ-IdNoVigente",
+      "Actual": "N",
+      "Observacion": "Ya no lo vamos a vender"
+    }
+  ],
+  "presentaciones": [
+    {
+      "IdPresentaOK": "9001-000000000001-000000001",
+      "IdPresentaBK": "HPZBOOK-COREi7-GRIS-500-16",
+      "CodigoBarras": "9001111111191",
+      "DesPresenta": "Empresarial Gris Oxford - 500GB - 16RAM",
+      "Indice": "",
+      "Principal": "N",
+      "estatus": [
+        {
+          "IdTipoEstatusOK": "IdEstatusCatProdServ-IdVigente",
+          "Actual": "S",
+          "Observacion": "Ninguna"
+        },
+        {
+          "IdTipoEstatusOK": "IdEstatusCatProdServ-IdBaja",
+          "Actual": "true",
+          "Observacion": "Ya no hay existencias"
+        },
+        {
+          "IdTipoEstatusOK": "IdEstatusCatProdServ-IdNoVigente",
+          "Actual": "N",
+          "Observacion": ""
+        },
+        {
+          "IdTipoEstatusOK": "IdEstatusCatProdServ-IdBaja",
+          "Actual": "S",
+          "Observacion": "asdf1234564321",
+          "_id": { "$oid": "6743e3f036a1ebd9021c59bc" }
+        },
+        {
+          "IdTipoEstatusOK": "IdEstatusCatProdServ-IdBaja",
+          "Actual": "N",
+          "Observacion": "asdf1234564321",
+          "_id": { "$oid": "6743e45c36a1ebd9021c5a26" }
+        }
+      ],
+      "info_vta": [],
+      "archivos": [
+        {
+          "IdArchivoOK": "9001-64e148b5ae58-64e148b5-e3f04e6c",
+          "IdArchivoBK": "9001-64e148b5ae58-64e148b5-e3f04e6c",
+          "DesArchivo": "",
+          "RutaArchivo": "https://firebasestorage.googleapis.com/v0/b/bcommerse-962b6.appspot.com/o/FileRepository%2F3BCommerce%2Ffiles%2Fproducts%2Fimagenes%2F9001%2F9001-64e148b5ae58-64e148b5-e3f04e6c.png?alt=media&token=6121eb85-f925-404b-8e97-b768a9298fc1",
+          "Path": "FileRepository/3BCommerce/files/products/imagenes/9001/9001-64e148b5ae58-64e148b5-e3f04e6c.png",
+          "IdTipoArchivoOK": "IdTipoArchivo-IdImagen",
+          "IdTipoSeccionOK": "IdSeccionesArchivosCatProdServ-IdPrincipal",
+          "Secuencia": { "$numberInt": "10" },
+          "Principal": "S"
+        }
+      ]
+    },
+    {
+      "IdPresentaOK": "9001-000000000001-000000002",
+      "IdPresentaBK": "HPZBOOK-COREi7-GRIS-500-32",
+      "CodigoBarras": "9001111111192",
+      "DesPresenta": "Empresarial Gris Oxford - 500GB - 32RAM",
+      "Indice": "",
+      "Principal": "N",
+      "estatus": [
+        {
+          "IdTipoEstatusOK": "IdEstatusCatProdServ-IdVigente",
+          "Actual": "S",
+          "Observacion": "Ninguna"
+        }
+      ],
+      "info_vta": [],
+      "info_ad": [
+        {
+          "IdEtiquetaOK": "",
+          "IdEtiqueta": "IdRatingPresentaCliente",
+          "Etiqueta": "CAL",
+          "Valor": "3",
+          "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdPrincipal",
+          "Secuencia": { "$numberInt": "10" }
+        }
+      ],
+      "paquete": [],
+      "archivos": [
+        {
+          "IdArchivoOK": "9001-64e148b5ae58-64e1f503-0e4a6d69",
+          "IdArchivoBK": "9001-64e148b5ae58-64e1f503-0e4a6d69",
+          "DesArchivo": "",
+          "RutaArchivo": "https://firebasestorage.googleapis.com/v0/b/bcommerse-962b6.appspot.com/o/FileRepository%2F3BCommerce%2Ffiles%2Fproducts%2Fimagenes%2F9001%2F9001-64e148b5ae58-64e1f503-0e4a6d69.png?alt=media&token=dceb5559-b4d3-45f3-b6a6-481922ffdbfd",
+          "Path": "FileRepository/3BCommerce/files/products/imagenes/9001/9001-64e148b5ae58-64e1f503-0e4a6d69.png",
+          "IdTipoArchivoOK": "IdTipoArchivo-IdImagen",
+          "IdTipoSeccionOK": "IdSeccionesArchivosCatProdServ-IdPrincipal",
+          "Secuencia": { "$numberInt": "10" },
+          "Principal": "S"
+        }
+      ]
+    },
+    {
+      "IdPresentaOK": "9001-000000000001-000000003",
+      "IdPresentaBK": "HPZBOOK-COREi7-ROSA-500-16",
+      "CodigoBarras": "9001111111193",
+      "DesPresenta": "Empresarial Rosa - 500GB - 16RAM",
+      "Indice": "pc-laptop-rosa-16-ram",
+      "Principal": "S",
+      "estatus": [
+        {
+          "IdTipoEstatusOK": "IdEstatusCatProdServ-IdNoVigente",
+          "Actual": "S",
+          "Observacion": "Ninguna"
+        }
+      ],
+      "info_vta": [],
+      "info_ad": [
+        {
+          "IdEtiquetaOK": "",
+          "IdEtiqueta": "IdRatingPresentaCliente",
+          "Etiqueta": "CAL",
+          "Valor": "2",
+          "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdPrincipal",
+          "Secuencia": { "$numberInt": "10" }
+        }
+      ],
+      "paquete": [],
+      "archivos": [
+        {
+          "IdArchivoOK": "9001-64e148b5ae58-4533a779-01e11f1d",
+          "IdArchivoBK": "9001-64e148b5ae58-4533a779-01e11f1d",
+          "DesArchivo": "",
+          "RutaArchivo": "https://firebasestorage.googleapis.com/v0/b/bcommerse-962b6.appspot.com/o/FileRepository%2F3BCommerce%2Ffiles%2Fproducts%2Fimagenes%2F9001%2F9001-64e148b5ae58-4533a779-01e11f1d.png?alt=media&token=fd7e1f41-0e68-418d-b4dd-49fba5434dd6",
+          "Path": "FileRepository/3BCommerce/files/products/imagenes/9001/9001-64e148b5ae58-4533a779-01e11f1d.png",
+          "IdTipoArchivoOK": "IdTipoArchivo-IdImagen",
+          "IdTipoSeccionOK": "IdSeccionesArchivosCatProdServ-IdPrincipal",
+          "Secuencia": { "$numberInt": "10" },
+          "Principal": "S"
+        },
+        {
+          "IdArchivoOK": "9001-64e148b5ae58-4533a779-7ae1debe",
+          "IdArchivoBK": "9001-64e148b5ae58-4533a779-7ae1debe",
+          "DesArchivo": "",
+          "RutaArchivo": "https://firebasestorage.googleapis.com/v0/b/bcommerse-962b6.appspot.com/o/FileRepository%2F3BCommerce%2Ffiles%2Fproducts%2Fimagenes%2F9001%2F9001-64e148b5ae58-4533a779-7ae1debe.png?alt=media&token=6ae554af-ba86-48fc-a8df-46be7ad9f607",
+          "Path": "FileRepository/3BCommerce/files/products/imagenes/9001/9001-64e148b5ae58-4533a779-7ae1debe.png",
+          "IdTipoArchivoOK": "IdTipoArchivo-IdImagen",
+          "IdTipoSeccionOK": "IdSeccionesArchivosCatProdServ-IdPrincipal",
+          "Secuencia": { "$numberInt": "20" },
+          "Principal": "N"
+        },
+        {
+          "IdArchivoOK": "9001-64e148b5ae58-4533a779-f61e38bc",
+          "IdArchivoBK": "9001-64e148b5ae58-4533a779-f61e38bc",
+          "DesArchivo": "",
+          "RutaArchivo": "https://firebasestorage.googleapis.com/v0/b/bcommerse-962b6.appspot.com/o/FileRepository%2F3BCommerce%2Ffiles%2Fproducts%2Fimagenes%2F9001%2F9001-64e148b5ae58-4533a779-f61e38bc.png?alt=media&token=b922fa2f-e3d9-49cb-a93f-eba211d36b17",
+          "Path": "FileRepository/3BCommerce/files/products/imagenes/9001/9001-64e148b5ae58-4533a779-f61e38bc.png",
+          "IdTipoArchivoOK": "IdTipoArchivo-IdImagen",
+          "IdTipoSeccionOK": "IdSeccionesArchivosCatProdServ-IdPrincipal",
+          "Secuencia": { "$numberInt": "30" },
+          "Principal": "N"
+        },
+        {
+          "IdArchivoOK": "9001-64e148b5ae58-4533a779-ccbd5123",
+          "IdArchivoBK": "9001-64e148b5ae58-4533a779-ccbd5123",
+          "DesArchivo": "",
+          "RutaArchivo": "https://firebasestorage.googleapis.com/v0/b/bcommerse-962b6.appspot.com/o/FileRepository%2F3BCommerce%2Ffiles%2Fproducts%2Fimagenes%2F9001%2F9001-64e148b5ae58-4533a779-ccbd5123.png?alt=media&token=74500a3d-e378-4e27-a3c3-0d21676ce452",
+          "Path": "FileRepository/3BCommerce/files/products/imagenes/9001/9001-64e148b5ae58-4533a779-ccbd5123.png",
+          "IdTipoArchivoOK": "IdTipoArchivo-IdImagen",
+          "IdTipoSeccionOK": "IdSeccionesArchivosCatProdServ-IdPrincipal",
+          "Secuencia": { "$numberInt": "40" },
+          "Principal": "N"
+        }
+      ]
+    }
+  ],
+  "info_ad": [
+    {
+      "IdEtiquetaOK": "",
+      "IdEtiqueta": "IdModelo",
+      "Valor": "ZBOOK",
+      "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdGeneral",
+      "Secuencia": { "$numberInt": "10" }
+    },
+    {
+      "IdEtiquetaOK": "",
+      "IdEtiqueta": "IdMarca",
+      "Valor": "HP",
+      "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdGeneral",
+      "Secuencia": { "$numberInt": "20" }
+    },
+    {
+      "IdEtiquetaOK": "IdCategoria-IdTecnologia",
+      "IdEtiqueta": "IdTecnologia",
+      "Valor": "Tecnologia",
+      "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdGeneral",
+      "Secuencia": { "$numberInt": "30" }
+    },
+    {
+      "IdEtiquetaOK": "IdSubCategoria-IdLaptop",
+      "IdEtiqueta": "IdLaptop",
+      "Valor": "LapTops",
+      "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdGeneral",
+      "Secuencia": { "$numberInt": "40" }
+    },
+    {
+      "IdEtiquetaOK": "IdEstrategia-IdDestacado",
+      "IdEtiqueta": "IdDestacado",
+      "Valor": "Destacado",
+      "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdGeneral",
+      "Secuencia": { "$numberInt": "50" }
+    },
+    {
+      "IdEtiquetaOK": "IdResaltar-IdUltimasPiezas",
+      "IdEtiqueta": "IdNuevo",
+      "Valor": "Nuevo",
+      "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdPrincipal",
+      "Secuencia": { "$numberInt": "60" }
+    },
+    {
+      "IdEtiquetaOK": "",
+      "IdEtiqueta": "IdTamaÃ±oDisco",
+      "Valor": "500GB",
+      "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdPrincipal",
+      "Secuencia": { "$numberInt": "2" }
+    },
+    {
+      "IdEtiquetaOK": "",
+      "IdEtiqueta": "IdMemoriaRAM",
+      "Valor": "16GB",
+      "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdPrincipal",
+      "Secuencia": { "$numberInt": "520" }
+    },
+    {
+      "IdEtiquetaOK": "",
+      "IdEtiqueta": "IdRatingProdServCliente",
+      "Etiqueta": "CAL",
+      "Valor": "5",
+      "IdTipoSeccionOK": "IdSeccionesInfoAdCatProdServ-IdPrincipal",
+      "Secuencia": { "$numberInt": "10" }
+    }
+  ]
+}

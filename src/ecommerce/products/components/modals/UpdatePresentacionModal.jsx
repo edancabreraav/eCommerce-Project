@@ -26,13 +26,23 @@ const UpdatePresentacionModal = ({ updatePresentacionShowModal, setUpdatePresent
             Principal: presentacionData.Principal || "",
         },
         validationSchema: Yup.object({
-            IdPresentaOK: Yup.string().required("Campo requerido"),
-            IdPresentaBK: Yup.string().required("Campo requerido"),
-            CodigoBarras: Yup.string().required("Campo requerido"),
-            DesPresenta: Yup.string().required("Campo requerido"),
-            Indice: Yup.string().required("Campo requerido"),
-            Principal: Yup.string().required("Campo requerido"),
-          
+            IdPresentaOK: Yup.string().required("Campo requerido")// Solo números y guión, pero no puede terminar en guión
+                                      .matches(/^[0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                                'Solo se permiten números'),
+
+            IdPresentaBK: Yup.string().required("Campo requerido")// Letras y números
+                                      .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                                'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
+
+            CodigoBarras: Yup.string().required("Campo requerido")// Solo números
+                                      .matches(/^\d{13}$/, 
+                                                'Debe contener exactamente 13 dígitos'),
+
+            DesPresenta: Yup.string().required("Campo requerido"), //Con que sea String, pero puede estar vacio
+
+            Indice: Yup.string().required("Campo requerido")// String pero sin espación, no puede terminar en '-' tampoco
+                                .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                          'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),          
         }),
         onSubmit: async (values) => {
             setLoading(true);
@@ -142,6 +152,7 @@ const UpdatePresentacionModal = ({ updatePresentacionShowModal, setUpdatePresent
               <TextField
                 id="Principal"
                 label="Principal*"
+                contentEditable={false}
                 value={formik.values.Principal}
                 {...commonTextFieldProps}
                 error={
