@@ -55,7 +55,10 @@ const UpdatePresentacionInfoVtaModal = ({ updatePresentacionInfoVtaShowModal, se
                 const InfoVta = InfoVtaValues(values);
                 await UpdateOnePresentacionSubdocument (idProd, idPres,'info_vta', InfoVta.IdEtiquetaOK, InfoVta)
                 setMensajeExitoAlert("Info_vta actualizada correctamente");
-                onPresentacionInfoVtaUpdated();
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setUpdatePresentacionInfoVtaShowModal(false); // Cerrar el modal después del retraso
+                  onPresentacionInfoVtaUpdated(); // Actualizar tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo actualizar la información");
@@ -178,7 +181,6 @@ const UpdatePresentacionInfoVtaModal = ({ updatePresentacionInfoVtaShowModal, se
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setUpdatePresentacionInfoVtaShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>

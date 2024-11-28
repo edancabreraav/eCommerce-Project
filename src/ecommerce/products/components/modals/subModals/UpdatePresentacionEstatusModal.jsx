@@ -39,7 +39,10 @@ const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, se
                 const Estatus = PresentacionEstatusValues(values);
                 await UpdateOnePresentacionSubdocument (idProd, idPres,'estatus', Estatus.IdTipoEstatusOK, Estatus)
                 setMensajeExitoAlert("Estatus actualizado correctamente");
-                onPresentacionEstatusUpdated();
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setUpdatePresentacionEstatusShowModal(false); // Cerrar el modal después del retraso
+                  onPresentacionEstatusUpdated(); // Actualizar tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo actualizar el Estatus");
@@ -143,7 +146,6 @@ const UpdatePresentacionEstatusModal = ({ updatePresentacionEstatusShowModal, se
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setUpdatePresentacionEstatusShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>

@@ -73,7 +73,10 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
                 const Archivo = ArchivosValues(values);
                 await AddOnePresentacionSubdocument (idProd, idPres,'archivos', Archivo)
                 setMensajeExitoAlert("Archivo guardado correctamente");
-                onPresentacionArchivoAdded();
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setAddPresentacionArchivoShowModal(false); // Cerrar el modal después del retraso
+                  onPresentacionArchivoAdded(); // Actualizar tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo guardar el archivo");
@@ -225,7 +228,6 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setAddPresentacionArchivoShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>
