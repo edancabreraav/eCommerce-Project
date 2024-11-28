@@ -23,17 +23,23 @@ const AddProductModal = ({ AddProductShowModal, setAddProductShowModal, onProduc
       Indice: "",
     },
     validationSchema: Yup.object({
-      IdProdServOK: Yup.string().required("Campo requerido"),
-      IdProdServBK: Yup.string().required("Campo requerido"),
-      DesProdServ: Yup.string().required("Campo requerido"),
-      CodigoBarras: Yup.string().required("Campo requerido"),
-      // .max(1, "Solo se permite una letra")
-      // .matches(/^[NS]+$/, "Solo se permiten letras")
-      Indice: Yup.string().required("Campo requerido"),
-      // .matches(
-      //   /^[a-zA-Z0-9-]+$/,
-      //   'Solo se permiten caracteres alfanuméricos y el simbolo "-"'
-      // ),
+      IdProdServOK: Yup.string().required("Campo requerido") // Solo números
+                                .matches(/^[0-9]+(-[0-9]+)?$/,
+                                          'Solo se permiten números y no debe terminar en "-" o contener mas de uno de estos'),
+
+      IdProdServBK: Yup.string().required("Campo requerido") // Letras y números
+                                .matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)$/,
+                                          'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
+
+      DesProdServ: Yup.string().required("Campo requerido"), // Juego libre, con que sea String, y ni eso, puede ser nada
+
+      CodigoBarras: Yup.string().required("Campo requerido") // Solo números
+                                .matches(/^\d{13}$/, 
+                                          'Debe contener exactamente 13 dígitos'),
+
+      Indice: Yup.string().required("Campo requerido") // String pero sin espación, no puede terminar en '-' tampoco
+                          .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                    'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
     }),
     onSubmit: async (values) => {
       setLoading(true);
