@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {getOneProduct} from '../../../services/remote/get/getOneProduct'
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Stack, Tooltip, Button, IconButton, Dialog } from "@mui/material";
+import { Box, Stack, Tooltip, Button, IconButton, Dialog, DialogTitle, DialogActions, Alert } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
@@ -47,6 +47,10 @@ const ProductsColumns = [
     const [updatePresentacionInfoVtaShowModal, setUpdatePresentacionInfoVtaShowModal] = useState(false);
     const [selectedInfoVta, setSelectedInfoVta] = useState(null);
 
+    const [deletePresentacionInfoVtaShowModal, setDeletePresentacionInfoVtaShowModal] = useState(false);
+    const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
+    const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
+
    
     const fetchData = async () => {
       setLoadingTable(true);
@@ -70,16 +74,16 @@ const ProductsColumns = [
     }, []);
 
     const handleDelClick = async (table) => {
+      setMensajeErrorAlert(null);
+      setMensajeExitoAlert(null);
       const selectedRows = table.getSelectedRowModel().flatRows;
       if (selectedRows.length === 0) {
           alert("Selecciona una fila para borrar");
           return;
       }
       const InfoVta = selectedRows[0]?.original; //Guardamos la información de la Presentación seleccionada
-      const IdEtiquetaOK = InfoVta[Object.keys(InfoVta)[0]] //Extraemos el id
-
-       await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'info_vta', IdEtiquetaOK);
-       await fetchData();
+      setSelectedInfoVta(InfoVta);
+      setDeletePresentacionInfoVtaShowModal(true);
     }
 
     const handleEditClick = (table) => {
@@ -161,6 +165,37 @@ const ProductsColumns = [
               idPres = {datosSubDocSeleccionados.IdPresentaOK}
               infovtaData={selectedInfoVta}
             />
+          </Dialog>
+          <Dialog open = {deletePresentacionInfoVtaShowModal} fullWidth>
+            <DialogTitle sx={{textAlign: 'center'}}>¿Eliminar <strong>{selectedInfoVta?.IdEtiquetaOK}</strong>?</DialogTitle>
+            <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
+              <Button variant='contained' color='error' fullWidth
+              onClick={async () => {
+                try {
+                  await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'info_vta', selectedInfoVta.IdEtiquetaOK);
+                  setMensajeExitoAlert('Información de venta eliminada')
+                  setTimeout(() => {
+                    setDeletePresentacionInfoVtaShowModal(false);
+                    fetchData();
+                  }, 2000);
+                } catch (error) {
+                  setMensajeExitoAlert(null);
+                  setMensajeErrorAlert('No se pudo eliminar la información de venta', error)
+                }
+              }}
+              >Eliminar</Button>
+              <Button variant='outlined'fullWidth sx={{m:2}} onClick={() => setDeletePresentacionInfoVtaShowModal(false)}>Cancelar</Button>
+              {mensajeErrorAlert && (
+                  <Alert severity="error" >
+                    <b>¡ERROR!</b> ─ {mensajeErrorAlert}
+                  </Alert>
+                )}
+                {mensajeExitoAlert && (
+                  <Alert severity="success" >
+                    <b>¡ÉXITO!</b> ─ {mensajeExitoAlert}
+                  </Alert>
+                )}
+            </DialogActions>
           </Dialog>
         </Box>
       );

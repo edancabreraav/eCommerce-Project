@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {getOneProduct} from '../../services/remote/get/getOneProduct'
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Stack, Tooltip, Button, IconButton, Dialog, DialogContent, DialogTitle, DialogActions, Typography, Alert } from "@mui/material";
+import { Box, Stack, Tooltip, Button, IconButton, Dialog, DialogTitle, DialogActions, Alert } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
@@ -164,8 +164,7 @@ const ProductsColumns = [
           </Dialog>
           {/*Modal de confirmación de eliminación*/}
           <Dialog open={deleteInfoAdShowModal} fullWidth>
-              <DialogTitle sx={{ textAlign: "center" }}>Confirmar eliminación</DialogTitle>
-              <DialogContent><Typography variant='h6' sx={{ textAlign: "center" }}>¿Eliminar: <strong>{selectedInfoAd?.IdEtiquetaOK}</strong>?</Typography></DialogContent>
+              <DialogTitle sx={{ textAlign: "center" }}>¿Eliminar: <strong>{selectedInfoAd?.IdEtiquetaOK}</strong>?</DialogTitle>
               <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
                 <Button variant='contained' color='error' fullWidth 
               onClick={async () => {

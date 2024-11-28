@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {getOneProduct} from '../../../services/remote/get/getOneProduct'
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Stack, Tooltip, Button, IconButton, Dialog } from "@mui/material";
+import { Box, Stack, Tooltip, Button, IconButton, Dialog, DialogTitle, DialogActions, Alert } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
@@ -37,6 +37,10 @@ const ProductsColumns = [
     const [addPresentacionEstatusShowModal, setAddPresentacionEstatusShowModal] = useState(false);
     const [updatePresentacionEstatusShowModal, setUpdatePresentacionEstatusShowModal] = useState(false);
     const [selectedEstatus, setSelectedEstatus] = useState(null);
+
+    const [deletePresentacionEstatusShowModal, setDeletePresentacionEstatusShowModal] = useState(false);
+    const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
+    const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
    
     const fetchData = async () => {
       setLoadingTable(true);
@@ -60,19 +64,16 @@ const ProductsColumns = [
     }, []);
 
     const handleDelClick = async (table) => {
+      setMensajeErrorAlert(null);
+      setMensajeExitoAlert(null);
       const selectedRows = table.getSelectedRowModel().flatRows;
       if (selectedRows.length === 0) {
           alert("Selecciona una fila para borrar");
           return;
       }
       const Estatus = selectedRows[0]?.original; //Guardamos la información de la Presentación seleccionada
-      const IdEstatusOK = Estatus[Object.keys(Estatus)[0]] //Extraemos el id
-
-      // console.log(datosSeleccionados.IdProdServOK)
-      // console.log(datosSubDocSeleccionados.IdPresentaOK)
-      // console.log(IdEstatusOK)
-       await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'estatus', IdEstatusOK);
-       await fetchData();
+      setSelectedEstatus(Estatus);
+      setDeletePresentacionEstatusShowModal(true);
     }
 
     const handleEditClick = (table) => {
@@ -154,6 +155,38 @@ const ProductsColumns = [
               idPres = {datosSubDocSeleccionados.IdPresentaOK}
               estatusData={selectedEstatus}
             />
+          </Dialog>
+          {/*Modal de confirmación de eliminación*/}
+          <Dialog open={deletePresentacionEstatusShowModal} fullWidth>
+            <DialogTitle sx={{textAlign:'center'}}>¿Eliminar <strong>{selectedEstatus?.IdTipoEstatusOK}</strong>?</DialogTitle>
+            <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
+              <Button variant='contained' color='error' fullWidth
+              onClick={async () => {
+                try {
+                  await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'estatus', selectedEstatus.IdTipoEstatusOK);
+                  setMensajeExitoAlert('Estatus eliminado');
+                  setTimeout(() => {
+                    setDeletePresentacionEstatusShowModal(false);
+                    fetchData();
+                  }, 2000);
+                } catch (error) {
+                  setMensajeExitoAlert(null);
+                  setMensajeErrorAlert('No se pudo eliminar el estatus', error)
+                }
+              }}
+              >Eliminar</Button>
+              <Button variant='outlined' fullWidth sx={{m:2}} onClick={() => setDeletePresentacionEstatusShowModal(false)}>Cancelar</Button>
+              {mensajeErrorAlert && (
+                  <Alert severity="error" >
+                    <b>¡ERROR!</b> ─ {mensajeErrorAlert}
+                  </Alert>
+                )}
+                {mensajeExitoAlert && (
+                  <Alert severity="success" >
+                    <b>¡ÉXITO!</b> ─ {mensajeExitoAlert}
+                  </Alert>
+                )}
+            </DialogActions>
           </Dialog>
         </Box>
       );

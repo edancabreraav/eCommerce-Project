@@ -169,8 +169,7 @@ const ProductsColumns = [
           </Dialog>
           {/*Modal de confirmación de eliminación*/}
           <Dialog open={deleteProductShowModal} fullWidth>
-              <DialogTitle sx={{ textAlign: "center" }}>Confirmar eliminación</DialogTitle>
-              <DialogContent><Typography variant='h6' sx={{ textAlign: "center" }}>¿Eliminar: <strong>{selectedProduct?.DesProdServ}</strong>?</Typography></DialogContent>
+              <DialogTitle sx={{ textAlign: "center" }}>¿Eliminar: <strong>{selectedProduct?.DesProdServ}</strong>?</DialogTitle>
               <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
                 <Button variant='contained' color='error' fullWidth 
               onClick={async () => {
