@@ -68,9 +68,6 @@ const ProductsColumns = [
       const Estatus = selectedRows[0]?.original; //Guardamos la información de la Presentación seleccionada
       const IdEstatusOK = Estatus[Object.keys(Estatus)[0]] //Extraemos el id
 
-      // console.log(datosSeleccionados.IdProdServOK)
-      // console.log(datosSubDocSeleccionados.IdPresentaOK)
-      // console.log(IdEstatusOK)
        await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'estatus', IdEstatusOK);
        await fetchData();
     }
@@ -119,11 +116,6 @@ const ProductsColumns = [
                       <Tooltip title="Eliminar">
                         <IconButton onClick={() => handleDelClick(table)}>
                           <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Detalles ">
-                        <IconButton>
-                          <InfoIcon />
                         </IconButton>
                       </Tooltip>
                     </Box>

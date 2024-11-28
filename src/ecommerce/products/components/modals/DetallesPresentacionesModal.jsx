@@ -2,8 +2,8 @@ import { Dialog, DialogContent, DialogTitle, DialogActions, Typography, Grid2, B
 import { LoadingButton } from "@mui/lab";
 import CloseIcon from "@mui/icons-material/Close";
 
-const DetallesPresentacionesModal = ({ detallesPresentacionesShowModal, setDetallesPresentacionesShowModal, presentacionesData }) => {
-    console.log("modal ",presentacionesData);
+const DetallesPresentacionesModal = ({ detallesPresentacionesShowModal, setDetallesPresentacionesShowModal, presentacionData }) => {
+
     return (
         <Dialog
           open={detallesPresentacionesShowModal}
@@ -24,39 +24,39 @@ const DetallesPresentacionesModal = ({ detallesPresentacionesShowModal, setDetal
                         <Typography variant="subtitle2" color="textSecondary">
                         ID Presentación:
                         </Typography>
-                        <Typography variant="body1">{presentacionesData?.IdPresentaOK || "N/A"}</Typography>
+                        <Typography variant="body1">{presentacionData?.IdPresentaOK || "N/A"}</Typography>
                     </Grid2>
                     <Grid2 item xs={6}>
                         <Typography variant="subtitle2" color="textSecondary">
-                        Código Interno:
+                        ID Presentación BK:
                         </Typography>
-                        <Typography variant="body1">{presentacionesData?.IdPresentaBK || "N/A"}</Typography>
+                        <Typography variant="body1">{presentacionData?.IdPresentaBK || "N/A"}</Typography>
                     </Grid2>
 
                     <Grid2 item xs={6}>
                         <Typography variant="subtitle2" color="textSecondary">
                         Código de Barras:
                         </Typography>
-                        <Typography variant="body1">{presentacionesData?.CodigoBarras || "N/A"}</Typography>
+                        <Typography variant="body1">{presentacionData?.CodigoBarras || "N/A"}</Typography>
                     </Grid2>
                     <Grid2 item xs={6}>
                         <Typography variant="subtitle2" color="textSecondary">
                         Descripción:
                         </Typography>
-                        <Typography variant="body1">{presentacionesData?.DesPresenta || "N/A"}</Typography>
+                        <Typography variant="body1">{presentacionData?.DesPresenta || "N/A"}</Typography>
                     </Grid2>
 
                     <Grid2 item xs={6}>
                         <Typography variant="subtitle2" color="textSecondary">
                         Índice:
                         </Typography>
-                        <Typography variant="body1">{presentacionesData?.Indice || "N/A"}</Typography>
+                        <Typography variant="body1">{presentacionData?.Indice || "N/A"}</Typography>
                     </Grid2>
                     <Grid2 item xs={6}>
                         <Typography variant="subtitle2" color="textSecondary">
                         Principal:
                         </Typography>
-                        <Typography variant="body1">{presentacionesData?.Principal || "N/A"}</Typography>
+                        <Typography variant="body1">{presentacionData?.Principal || "N/A"}</Typography>
                     </Grid2>
                 </Grid2>
             </Box>

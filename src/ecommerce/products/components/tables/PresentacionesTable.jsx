@@ -80,13 +80,11 @@ const ProductsColumns = [
       // Accede a los datos necesarios del registro (rowData) y llama a tu método
       const {IdPresentaOK} = rowData.original;
       const {index} = rowData;
-      // Mostrar en consola los datos del registro
-      console.log("IdPresentaOK: ", IdPresentaOK);
-      console.log("index", index)
+      
       // Actualizar el estado de los datos seleccionados
        setDatosSubDocSeleccionados({IdPresentaOK, index});
       const datos = rowData.original;
-       setSelectedPresentacion(datos);
+      setSelectedPresentacion(datos);
     };
 
     const handleDelClick = async (table) => {
