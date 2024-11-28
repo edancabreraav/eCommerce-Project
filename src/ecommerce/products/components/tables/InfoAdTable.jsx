@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {getOneProduct} from '../../services/remote/get/getOneProduct'
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Stack, Tooltip, Button, IconButton, Dialog } from "@mui/material";
+import { Box, Stack, Tooltip, Button, IconButton, Dialog, DialogContent, DialogTitle, DialogActions, Typography, Alert } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
@@ -46,6 +46,10 @@ const ProductsColumns = [
     const [addInfoAdShowModal, setAddInfoAdShowModal] = useState(false);
     const [updateInfoAdShowModal, setUpdateInfoAdShowModal] = useState(false);
     const [selectedInfoAd, setSelectedInfoAd] = useState(null);
+
+    const [deleteInfoAdShowModal, setDeleteInfoAdShowModal] = useState(false);
+    const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
+    const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
    
     const fetchData = async () => {
       setLoadingTable(true);
@@ -68,7 +72,7 @@ const ProductsColumns = [
         fetchData();
     }, []);
 
-    //Función para manejar la lógica de eliminar Información Adicional
+    //Función para guardar la información a eliminar y mostrar la modal de confirmación de eliminación
     const handleDelClick = async (table) => {
       const selectedRows = table.getSelectedRowModel().flatRows;
       if (selectedRows.length === 0) {
@@ -76,9 +80,8 @@ const ProductsColumns = [
           return;
       }
       const InfoAd = selectedRows[0]?.original; //Guardamos la información del InfoAd seleccionado
-      const IdEtiquetaOK = InfoAd[Object.keys(InfoAd)[0]] //Extraemos el id
-      await delOneSubdocument(datosSeleccionados.IdProdServOK, 'info_ad', IdEtiquetaOK);
-      await fetchData();
+      setSelectedInfoAd(InfoAd);
+      setDeleteInfoAdShowModal(true)
     }
 
     const handleEditClick = (table) => {
@@ -157,6 +160,40 @@ const ProductsColumns = [
               idProd = {datosSeleccionados.IdProdServOK}
               infoAdData = {selectedInfoAd}
             />
+          </Dialog>
+          {/*Modal de confirmación de eliminación*/}
+          <Dialog open={deleteInfoAdShowModal} fullWidth>
+              <DialogTitle sx={{ textAlign: "center" }}>Confirmar eliminación</DialogTitle>
+              <DialogContent><Typography variant='h6' sx={{ textAlign: "center" }}>¿Eliminar: <strong>{selectedInfoAd?.IdEtiquetaOK}</strong>?</Typography></DialogContent>
+              <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
+                <Button variant='contained' color='error' fullWidth 
+              onClick={async () => {
+                try {
+                  await delOneSubdocument(datosSeleccionados.IdProdServOK, 'info_ad', selectedInfoAd.IdEtiquetaOK);
+                    setMensajeExitoAlert("Producto eliminado");
+                    setTimeout(() => {
+                      setDeleteInfoAdShowModal(false); // Cierra el cuadro de diálogo
+                      fetchData(); // Actualiza los datos de la tabla
+                    }, 2000);
+                } catch (error) {
+                  setMensajeExitoAlert(null);
+                  setMensajeErrorAlert("No se pudo eliminar el producto", error);
+                }
+            }}
+              >Eliminar
+              </Button>
+              <Button variant='outlined' fullWidth sx={{m:2}} onClick={() => setDeleteInfoAdShowModal(false)}>Cancelar</Button>
+              {mensajeErrorAlert && (
+                  <Alert severity="error" >
+                    <b>¡ERROR!</b> ─ {mensajeErrorAlert}
+                  </Alert>
+                )}
+                {mensajeExitoAlert && (
+                  <Alert severity="success" >
+                    <b>¡ÉXITO!</b> ─ {mensajeExitoAlert}
+                  </Alert>
+                )}
+              </DialogActions>
           </Dialog>
         </Box>
       );

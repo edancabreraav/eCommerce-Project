@@ -174,7 +174,7 @@ const ProductsColumns = [
                 <Button variant='contained' color='error' fullWidth 
               onClick={async () => {
                 try {
-                    await delOneProduct(selectedProduct?.IdProdServOK); // Elimina el producto
+                    await delOneProduct(selectedProduct.IdProdServOK); // Elimina el producto
                     setMensajeExitoAlert("Producto eliminado");
                     setTimeout(() => {
                       setDeleteProductShowModal(false); // Cierra el cuadro de diálogo
