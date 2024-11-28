@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {getOneProduct} from '../../../services/remote/get/getOneProduct'
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Stack, Tooltip, Button, IconButton, Dialog } from "@mui/material";
+import { Box, Stack, Tooltip, Button, IconButton, Dialog, DialogTitle, DialogActions, Alert } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
@@ -67,6 +67,10 @@ const ProductsColumns = [
     const [updatePresentacionArchivoShowModal, setUpdatePresentacionArchivoShowModal] = useState(false);
     const [selectedArchivo, setSelectedArchivo] = useState(null);
 
+    const [deletePresentacionArchivoShowModal, setDeletePresentacionArchivoShowModal] = useState(false);
+    const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
+    const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
+
    
     const fetchData = async () => {
       setLoadingTable(true);
@@ -89,17 +93,18 @@ const ProductsColumns = [
         fetchData();
     }, []);
 
+    //Función para guardar el archivo a eliminar y mostrar la modal de confirmación de eliminación
     const handleDelClick = async (table) => {
+      setMensajeErrorAlert(null);
+      setMensajeExitoAlert(null);
       const selectedRows = table.getSelectedRowModel().flatRows;
       if (selectedRows.length === 0) {
           alert("Selecciona una fila para borrar");
           return;
       }
       const Archivo = selectedRows[0]?.original; //Guardamos la información del Archivo seleccionado
-      const IdArchivoOK = Archivo[Object.keys(Archivo)[0]] //Extraemos el id
-      
-       await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'archivos', IdArchivoOK);
-       await fetchData();
+      setSelectedArchivo(Archivo);
+      setDeletePresentacionArchivoShowModal(true);
     }
 
     const handleEditClick = (table) => {
@@ -181,6 +186,38 @@ const ProductsColumns = [
               archivoData={selectedArchivo}
             />
           </Dialog> 
+          {/*Modal de confirmación de eliminación*/}
+          <Dialog open={deletePresentacionArchivoShowModal} fullWidth>
+            <DialogTitle sx={{ textAlign: "center" }}>¿Eliminar <strong>{selectedArchivo?.IdArchivoOK}</strong>?</DialogTitle>
+            <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
+              <Button variant='contained' color='error' fullWidth
+              onClick={async () => {
+                try {
+                  await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'archivos', selectedArchivo.IdArchivoOK);
+                  setMensajeExitoAlert('Archivo eliminado');
+                  setTimeout(() => {
+                    setDeletePresentacionArchivoShowModal(false);
+                    fetchData();
+                  }, 2000);
+                } catch (error) {
+                  setMensajeExitoAlert(null);
+                  setMensajeErrorAlert("No se pudo eliminar el archivo", error);
+                }
+              }}
+              >Eliminar</Button>
+              <Button variant='outlined' fullWidth sx={{m:2}} onClick={() => setDeletePresentacionArchivoShowModal(false)}>Cancelar</Button>
+              {mensajeErrorAlert && (
+                  <Alert severity="error" >
+                    <b>¡ERROR!</b> ─ {mensajeErrorAlert}
+                  </Alert>
+                )}
+                {mensajeExitoAlert && (
+                  <Alert severity="success" >
+                    <b>¡ÉXITO!</b> ─ {mensajeExitoAlert}
+                  </Alert>
+                )}
+            </DialogActions>
+          </Dialog>
         </Box>
       );
   };
