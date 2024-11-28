@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { getAllProducts } from '../../services/remote/get/getAllProducts';
 import { delOneProduct } from '../../services/remote/delete/delOneProduct';
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Stack, Tooltip, Button, IconButton, Dialog } from "@mui/material";
+import { Box, Stack, Tooltip, Button, IconButton, Dialog, DialogContent, DialogTitle, DialogActions, Typography, Alert } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
@@ -47,6 +47,10 @@ const ProductsColumns = [
     const [UpdateProductShowModal, setUpdateProductShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
+    const [deleteProductShowModal, setDeleteProductShowModal] = useState(false);
+    const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
+    const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
+
     const fetchData = async () => {
       setLoadingTable(true);
       try {
@@ -84,21 +88,18 @@ const ProductsColumns = [
       setUpdateProductShowModal(true);
     };
 
-    //Función para manejar la lógica de eliminar un producto
+    //Función para guardar el producto a eliminar y mostrar la modal de confirmación de eliminación
     const handleDelClick = async (table) => {
+      setMensajeErrorAlert(null);
+      setMensajeExitoAlert(null);
       const selectedRows = table.getSelectedRowModel().flatRows;
       if (selectedRows.length === 0) {
           alert("Selecciona una fila para borrar");
           return;
       }
-      // console.log(selectedRows)
-      // console.log(selectedRows[0]?.original)
       const product = selectedRows[0]?.original;
-      // console.log(product[Object.keys(product)[1]])
-      const IdProdServOK = product[Object.keys(product)[1]];
-
-    await delOneProduct(IdProdServOK);
-    await fetchData();
+      setSelectedProduct(product); // Almacena el producto en estado
+      setDeleteProductShowModal(true); // Muestra el cuadro de diálogo de confirmación
     };
 
     return (
@@ -164,7 +165,41 @@ const ProductsColumns = [
               productData={selectedProduct}
               onProductUpdated={fetchData}
             />
-          </Dialog> 
+          </Dialog>
+          {/*Modal de confirmación de eliminación*/}
+          <Dialog open={deleteProductShowModal} fullWidth>
+              <DialogTitle sx={{ textAlign: "center" }}>Confirmar eliminación</DialogTitle>
+              <DialogContent><Typography variant='h6' sx={{ textAlign: "center" }}>¿Eliminar: <strong>{selectedProduct?.DesProdServ}</strong>?</Typography></DialogContent>
+              <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
+                <Button variant='contained' color='error' fullWidth 
+              onClick={async () => {
+                try {
+                    await delOneProduct(selectedProduct?.IdProdServOK); // Elimina el producto
+                    setMensajeExitoAlert("Producto eliminado");
+                    setTimeout(() => {
+                      setDeleteProductShowModal(false); // Cierra el cuadro de diálogo
+                      fetchData(); // Actualiza los datos de la tabla
+                    }, 2000);
+                } catch (error) {
+                  setMensajeExitoAlert(null);
+                  setMensajeErrorAlert("No se pudo eliminar el producto", error);
+                }
+            }}
+              >Eliminar
+              </Button>
+              <Button variant='outlined' fullWidth sx={{m:2}} onClick={() => setDeleteProductShowModal(false)}>Cancelar</Button>
+              {mensajeErrorAlert && (
+                  <Alert severity="error" >
+                    <b>¡ERROR!</b> ─ {mensajeErrorAlert}
+                  </Alert>
+                )}
+                {mensajeExitoAlert && (
+                  <Alert severity="success" >
+                    <b>¡ÉXITO!</b> ─ {mensajeExitoAlert}
+                  </Alert>
+                )}
+              </DialogActions>
+          </Dialog>
         </Box>
       );
   };
