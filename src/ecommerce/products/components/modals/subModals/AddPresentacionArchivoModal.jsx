@@ -61,6 +61,10 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
             Secuencia:  Yup.number().required("Campo requerido") // Número mayor a 0
                                     .integer("Debe ser un número entero")
                                     .min(1, "Debe ser mayor o igual a 1"),
+
+            Principal:  Yup.string().required("Campo requerido") // Solo S o N, no mas no menos
+                                    .max(1, 'Solo se permite una letra')
+                                    .matches(/^[SN]$/, 'Solo se permite un caracter S/N'),               
         }),
         onSubmit: async (values) => {
             setLoading(true);
@@ -191,6 +195,16 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
                   formik.touched.Secuencia && Boolean(formik.errors.Secuencia)
                 }
                 helperText={formik.touched.Secuencia && formik.errors.Secuencia}
+              />
+              <TextField
+                id="Principal"
+                label="Principal*"
+                value={formik.values.Principal}
+                {...commonTextFieldProps}
+                error={
+                  formik.touched.Principal && Boolean(formik.errors.Principal)
+                }
+                helperText={formik.touched.Principal && formik.errors.Principal}
               />
             </DialogContent>
             {/* Acciones de usuario */}
