@@ -30,17 +30,17 @@ const UpdatePresentacionModal = ({ updatePresentacionShowModal, setUpdatePresent
                                       .matches(/^[0-9]+(?:-[a-zA-Z0-9]+)*$/,
                                                 'Solo se permiten números'),
 
-            IdPresentaBK: Yup.string().required("Campo requerido")// Letras y números
+            IdPresentaBK: Yup.string().required("Campo requerido")// Letras y números, sin espaciós
                                       .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
                                                 'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
 
-            CodigoBarras: Yup.string().required("Campo requerido")// Solo números
+            CodigoBarras: Yup.string().required("Campo requerido")// Solo 13 números
                                       .matches(/^\d{13}$/, 
                                                 'Debe contener exactamente 13 dígitos'),
 
             DesPresenta: Yup.string().required("Campo requerido"), //Con que sea String, pero puede estar vacio
 
-            Indice: Yup.string().required("Campo requerido")// String pero sin espación, no puede terminar en '-' tampoco
+            Indice: Yup.string().required("Campo requerido")// String pero sin espació, no puede terminar en '-' tampoco
                                 .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
                                           'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),          
         }),
@@ -152,7 +152,7 @@ const UpdatePresentacionModal = ({ updatePresentacionShowModal, setUpdatePresent
               <TextField
                 id="Principal"
                 label="Principal*"
-                contentEditable={false}
+                disabled
                 value={formik.values.Principal}
                 {...commonTextFieldProps}
                 error={

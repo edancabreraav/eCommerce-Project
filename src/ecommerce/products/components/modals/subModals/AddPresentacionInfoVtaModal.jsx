@@ -24,11 +24,25 @@ const AddPresentacionInfoVtaModal = ({ addPresentacionInfoVtaShowModal, setAddPr
             Secuencia: "",
         },
         validationSchema: Yup.object({
-          IdEtiquetaOK: Yup.string().required("Campo requerido"),
-          IdEtiqueta: Yup.string().required("Campo requerido"),
-          Valor: Yup.string().required("Campo requerido"),
-          IdTipoSeccionOK: Yup.string().required("Campo requerido"),
-          Secuencia: Yup.string().required("Campo requerido")
+          IdEtiquetaOK: Yup.string().required("Campo requerido")// String pero sin espació, no puede terminar en '-' tampoco
+                            .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                      'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
+
+          IdEtiqueta: Yup.string().required("Campo requerido")// String, solo letras y sin espacios
+                                  .matches(/^[a-zA-Z]+$/,
+                                            'Solo se permiten letras.'),
+
+          Valor: Yup.string().required("Campo requerido")
+                              .matches(/^[a-zA-Z0-9]+$/,
+                                'Solo se permiten caracteres alfanuméricos'),
+
+          IdTipoSeccionOK: Yup.string().required("Campo requerido") // String pero sin espació, no puede terminar en '-' tampoco
+                                        .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                                'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
+
+          Secuencia:  Yup.number().required("Campo requerido")  // Número mayor a 0
+                                  .integer("Debe ser un número entero")
+                                  .min(1, "Debe ser mayor o igual a 1"),
         }),
         onSubmit: async (values) => {
             setLoading(true);

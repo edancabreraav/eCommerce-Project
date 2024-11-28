@@ -28,15 +28,39 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
             Principal: "",
         },
         validationSchema: Yup.object({
-            IdArchivoOK: Yup.string().required("Campo requerido"),
-            IdArchivoBK: Yup.string().required("Campo requerido"),
-            DesArchivo: Yup.string().required("Campo requerido"),
-            RutaArchivo: Yup.string().required("Campo requerido"),
-            Path: Yup.string().required("Campo requerido"),
-            IdTipoArchivoOK: Yup.string().required("Campo requerido"),
-            IdTipoSeccionOK: Yup.string().required("Campo requerido"),
-            Secuencia: Yup.number().required("Campo requerido"),
-            Principal: Yup.string().required("Campo requerido"),
+            IdArchivoOK:  Yup.string().required("Campo requerido") // Formato de alfanumérico-alfanumérico-alfanumérico-alfanumérico
+                                      .matches(/^[a-zA-Z0-9]+-[a-zA-Z0-9]+-[a-zA-Z0-9]+-[a-zA-Z0-9]+$/,
+                                                'Solo se permiten letras, seguidas de un guión y terminar en letras'),
+
+            IdArchivoBK:  Yup.string().required("Campo requerido") // Formato de alfanumérico-alfanumérico-alfanumérico-alfanumérico
+                                      .matches(/^[a-zA-Z0-9]+-[a-zA-Z0-9]+-[a-zA-Z0-9]+-[a-zA-Z0-9]+$/,
+                                                'Solo se permiten letras, seguidas de un guión y terminar en letras'),
+
+            DesArchivo: Yup.string(), //Puede estar vacio
+
+            RutaArchivo: Yup.string().required("Campo requerido") // Ruta de firebase que la verdad se la pedí a chatgpt
+                                      .matches(  
+                                      /^https:\/\/firebasestorage\.googleapis\.com\/v0\/b\/[\w.-]+\/o\/[\w%./-]+(\?alt=media&token=[\w-]+)?$/,
+                                      'La ruta del archivo debe ser una URL válida de Firebase Storage'),
+
+            Path: Yup.string().required("Campo requerido") // Ruta
+                              .matches(
+                              /^FileRepository\/[a-zA-Z0-9]+\/files\/products\/imagenes\/[0-9]+\/[a-zA-Z0-9.-]+$/,
+                              'La ruta del archivo debe seguir el formato esperado'),
+                                    
+
+            IdTipoArchivoOK:  Yup.string().required("Campo requerido") // Alfanumérico con un guion en medio
+                                          .matches(/^[a-zA-Z0-9]+-[a-zA-Z0-9]+$/,
+                                                    'El formato debe ser alfanumérico con un guion en medio'),
+                            
+
+            IdTipoSeccionOK:  Yup.string().required("Campo requerido") // Alfanumérico con un guion en medio
+                                          .matches(/^[a-zA-Z0-9]+-[a-zA-Z0-9]+$/,
+                                                    'El formato debe ser alfanumérico con un guion en medio'),
+
+            Secuencia:  Yup.number().required("Campo requerido") // Número mayor a 0
+                                    .integer("Debe ser un número entero")
+                                    .min(1, "Debe ser mayor o igual a 1"),
         }),
         onSubmit: async (values) => {
             setLoading(true);
@@ -164,16 +188,6 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
                   formik.touched.Secuencia && Boolean(formik.errors.Secuencia)
                 }
                 helperText={formik.touched.Secuencia && formik.errors.Secuencia}
-              />
-              <TextField
-                id="Principal"
-                label="Principal*"
-                value={formik.values.Principal}
-                {...commonTextFieldProps}
-                error={
-                  formik.touched.Principal && Boolean(formik.errors.Principal)
-                }
-                helperText={formik.touched.Principal && formik.errors.Principal}
               />
             </DialogContent>
             {/* Acciones de usuario */}

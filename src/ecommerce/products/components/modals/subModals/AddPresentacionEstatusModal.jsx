@@ -24,9 +24,11 @@ const AddPresentacionEstatusModal = ({ addPresentacionEstatusShowModal, setAddPr
           Observacion: "",
         },
         validationSchema: Yup.object({
-          IdTipoEstatusOK: Yup.string().required("Campo requerido"),
-          Actual: Yup.string().required("Campo requerido"),
-          Observacion: Yup.string().required("Campo requerido"),
+          IdTipoEstatusOK:  Yup.string().required("Campo requerido") // Solo letras, guión y mas letras, sin espacios
+                                        .matches(/^[a-zA-Z]+-[a-zA-Z]+$/,
+                                                  'Solo se permiten letras, seguidas de un guión y terminar en letras'),
+                                                  
+          Observacion: Yup.string(), //String, pero puede estar vacio
         }),
         onSubmit: async (values) => {
             setLoading(true);
@@ -108,18 +110,6 @@ const AddPresentacionEstatusModal = ({ addPresentacionEstatusShowModal, setAddPr
                 ))}
               </Select>
 
-              <TextField
-                id="Actual"
-                label="Actual*"
-                value={formik.values.Actual}
-                {...commonTextFieldProps}
-                error={
-                  formik.touched.Actual && Boolean(formik.errors.Actual)
-                }
-                helperText={
-                  formik.touched.Actual && formik.errors.Actual
-                }
-              />
               <TextField
                 id="Observacion"
                 label="Observacion*"

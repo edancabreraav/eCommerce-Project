@@ -25,13 +25,23 @@ const AddPresentacionModal = ({ addPresentacionShowModal, setAddPresentacionShow
             Principal: "",
         },
         validationSchema: Yup.object({
-            IdPresentaOK: Yup.string().required("Campo requerido"),
-            IdPresentaBK: Yup.string().required("Campo requerido"),
-            CodigoBarras: Yup.string().required("Campo requerido"),
-            DesPresenta: Yup.string().required("Campo requerido"),
-            Indice: Yup.string().required("Campo requerido"),
-            Principal: Yup.string().required("Campo requerido"),
-          
+          IdPresentaOK: Yup.string().required("Campo requerido")// Solo números y guión, pero no puede terminar en guión
+                                    .matches(/^[0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                              'Solo se permiten números'),
+
+          IdPresentaBK: Yup.string().required("Campo requerido")// Letras y números, sin espaciós
+                                    .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                              'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
+
+          CodigoBarras: Yup.string().required("Campo requerido")// Solo 13 números
+                                    .matches(/^\d{13}$/, 
+                                              'Debe contener exactamente 13 dígitos'),
+
+          DesPresenta: Yup.string(), //Con que sea String, pero puede estar vacio
+
+          Indice: Yup.string().required("Campo requerido")// String pero sin espació, no puede terminar en '-' tampoco
+                              .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                        'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),  
         }),
         onSubmit: async (values) => {
             setLoading(true);
@@ -136,16 +146,6 @@ const AddPresentacionModal = ({ addPresentacionShowModal, setAddPresentacionShow
                 helperText={
                   formik.touched.Indice && formik.errors.Indice
                 }
-              />
-              <TextField
-                id="Principal"
-                label="Principal*"
-                value={formik.values.Principal}
-                {...commonTextFieldProps}
-                error={
-                  formik.touched.Principal && Boolean(formik.errors.Principal)
-                }
-                helperText={formik.touched.Principal && formik.errors.Principal}
               />
             </DialogContent>
             {/* Acciones de usuario */}

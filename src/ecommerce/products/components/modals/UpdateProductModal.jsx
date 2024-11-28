@@ -26,17 +26,17 @@ const UpdateProductModal = ({ UpdateProductShowModal, setUpdateProductShowModal,
                                 .matches(/^[0-9]+(?:-[a-zA-Z0-9]+)*$/,
                                           'Solo se permiten números'),
 
-      IdProdServBK: Yup.string().required("Campo requerido")// Letras y números
+      IdProdServBK: Yup.string().required("Campo requerido")// Alfanuméricos
                                 .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
                                           'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
 
       DesProdServ: Yup.string().required("Campo requerido"), //Con que sea String, pero puede estar vacio
 
-      CodigoBarras: Yup.string().required("Campo requerido")// Solo números
+      CodigoBarras: Yup.string().required("Campo requerido")// Solo 13 números
                                 .matches(/^\d{13}$/, 
                                           'Debe contener exactamente 13 dígitos'),
 
-      Indice: Yup.string().required("Campo requerido")// String pero sin espación, no puede terminar en '-' tampoco
+      Indice: Yup.string().required("Campo requerido")// Alfanuméricos pero sin espació, no puede terminar en '-' tampoco
                           .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
                                     'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
     }),

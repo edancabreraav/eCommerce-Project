@@ -22,9 +22,12 @@ const UpdateEstatusModal = ({ updateEstatusShowModal, setUpdateEstatusShowModal,
           Observacion: estatusData.Observacion || "",
         },
         validationSchema: Yup.object({
-          IdTipoEstatusOK: Yup.string().required("Campo requerido"),
-          Actual: Yup.string().required("Campo requerido"),
-          Observacion: Yup.string().required("Campo requerido"),
+          IdTipoEstatusOK:  Yup.string().required("Campo requerido") // String, solo letras y sin espacios
+                                        .matches(/^[a-zA-Z]+$/,
+                                                  'Solo se permiten letras.'),
+
+          Observacion: Yup.string(), //No tiene que tener contenido
+
         }),
         onSubmit: async (values) => {
             setLoading(true);
@@ -91,6 +94,7 @@ const UpdateEstatusModal = ({ updateEstatusShowModal, setUpdateEstatusShowModal,
                 label="Actual*"
                 value={formik.values.Actual}
                 {...commonTextFieldProps}
+                disabled
                 error={
                   formik.touched.Actual && Boolean(formik.errors.Actual)
                 }
