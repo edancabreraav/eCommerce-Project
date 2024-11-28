@@ -4,7 +4,6 @@ import { MaterialReactTable } from 'material-react-table';
 import { Box, Stack, Tooltip, Button, IconButton, Dialog } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
-import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import AddEstatusModal from '../modals/AddEstatusModal';
@@ -116,11 +115,6 @@ const ProductsColumns = [
                       <Tooltip title="Eliminar">
                         <IconButton onClick={() => handleDelClick(table)}>
                           <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Detalles ">
-                        <IconButton>
-                          <InfoIcon />
                         </IconButton>
                       </Tooltip>
                     </Box>

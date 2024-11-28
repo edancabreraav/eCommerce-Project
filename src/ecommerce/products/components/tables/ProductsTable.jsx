@@ -8,24 +8,27 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+//Modales
 import AddProductModal from '../modals/AddProductModal';
 import UpdateProductModal from '../modals/UpdateProductModal';
+import DetallesProductModal from '../modals/DetallesProductModal';
 
 //Arreglo para las columnas
 const ProductsColumns = [
     {
       accessorKey: "IdProdServOK",
-      header: "ID OK",
+      header: "ID PRODSERV OK",
       size: 30, //small column
     },
     {
       accessorKey: "IdProdServBK",
-      header: "ID BK",
+      header: "ID PRODSERV BK",
       size: 30, //small column
     },
     {
       accessorKey: "DesProdServ",
-      header: "PRODUCTO",
+      header: "DES PRODUCTO SERV",
       size: 150, //small column
     },
     {
@@ -45,6 +48,7 @@ const ProductsColumns = [
     const [productsData, setProductsData] = useState([]);
     const [AddProductShowModal, setAddProductShowModal] = useState(false);
     const [UpdateProductShowModal, setUpdateProductShowModal] = useState(false);
+    const [DetallesProductShowModal, setDetallesProductShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const fetchData = async () => {
@@ -70,7 +74,8 @@ const ProductsColumns = [
       console.log("IdProdServOK: ", IdProdServOK);
       // Actualizar el estado de los datos seleccionados
       setDatosSeleccionados({IdProdServOK});
-  };
+      setSelectedProduct(rowData.original);
+    };
 
     
     const handleEditClick = (table) => {
@@ -137,7 +142,7 @@ const ProductsColumns = [
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Detalles ">
-                        <IconButton>
+                        <IconButton onClick={() => setDetallesProductShowModal(true)}>
                           <InfoIcon />
                         </IconButton>
                       </Tooltip>
@@ -156,16 +161,25 @@ const ProductsColumns = [
               onClose={() => setAddProductShowModal(false)}
               onProductAdded={fetchData}
             />
-          </Dialog>
-          <Dialog open={UpdateProductShowModal}>
-            <UpdateProductModal
-              UpdateProductShowModal={UpdateProductShowModal}
-              setUpdateProductShowModal={setUpdateProductShowModal}
-              onClose={() => setUpdateProductShowModal(false)}
-              productData={selectedProduct}
-              onProductUpdated={fetchData}
-            />
-          </Dialog> 
+        </Dialog>
+
+        <Dialog open={UpdateProductShowModal}>
+          <UpdateProductModal
+            UpdateProductShowModal={UpdateProductShowModal}
+            setUpdateProductShowModal={setUpdateProductShowModal}
+            onClose={() => setUpdateProductShowModal(false)}
+            productData={selectedProduct}
+            onProductUpdated={fetchData}
+          />
+        </Dialog> 
+
+        <Dialog open={DetallesProductShowModal}>
+          <DetallesProductModal 
+            DetallesProductShowModal={DetallesProductShowModal}
+            setDetallesProductShowModal={setDetallesProductShowModal}
+            productData={selectedProduct}
+          />
+        </Dialog>
         </Box>
       );
   };

@@ -9,6 +9,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import AddInfoAdModal from '../modals/AddInfoAdModal';
 import UpdateInfoAdModal from '../modals/UpdateInfoAdModal';
+import DetallesInfoAdModal from '../modals/DetallesInfoAdModal';
+
 import { delOneSubdocument } from '../../services/remote/delete/delOneSubdocument';
 
 //Arreglo para las columnas
@@ -45,6 +47,7 @@ const ProductsColumns = [
     const [productsData, setProductData] = useState([]);
     const [addInfoAdShowModal, setAddInfoAdShowModal] = useState(false);
     const [updateInfoAdShowModal, setUpdateInfoAdShowModal] = useState(false);
+    const [detallesInfoAdShowModal, setdetallesInfoAdShowModal] = useState(false);
     const [selectedInfoAd, setSelectedInfoAd] = useState(null);
    
     const fetchData = async () => {
@@ -62,6 +65,11 @@ const ProductsColumns = [
         console.error("Error al obtener los productos en useEffect de EstatusTable:", error);
     }
       setLoadingTable(false);
+    };
+
+    const sendDataRow = (rowData) => {
+      const InfoAd = rowData.original;
+      setSelectedInfoAd(InfoAd);
     };
 
     useEffect(() => {
@@ -104,7 +112,7 @@ const ProductsColumns = [
              enableMultiRowSelection={false}
              muiTableBodyRowProps={({row}) => ({
               onClick: row.getToggleSelectedHandler(),
-              // onClickCapture: () => sendDataRow(row),
+              onClickCapture: () => sendDataRow(row),
               sx: {cursor: 'pointer'},
             })}
              renderTopToolbarCustomActions={({ table }) => (
@@ -128,7 +136,7 @@ const ProductsColumns = [
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Detalles ">
-                        <IconButton>
+                        <IconButton onClick={() => setdetallesInfoAdShowModal(true)}>
                           <InfoIcon />
                         </IconButton>
                       </Tooltip>
@@ -156,6 +164,14 @@ const ProductsColumns = [
               onClose={() => setUpdateInfoAdShowModal(false)}
               onInfoAdUpdated={fetchData}
               idProd = {datosSeleccionados.IdProdServOK}
+              infoAdData = {selectedInfoAd}
+            />
+          </Dialog>
+
+          <Dialog open={detallesInfoAdShowModal}> 
+            <DetallesInfoAdModal
+              DetallesInfoAdShowModal={detallesInfoAdShowModal}
+              setDetallesInfoAdShowModal={setdetallesInfoAdShowModal}
               infoAdData = {selectedInfoAd}
             />
           </Dialog>
