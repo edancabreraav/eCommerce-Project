@@ -49,7 +49,10 @@ const UpdateInfoAdModal = ({ updateInfoAdShowModal, setUpdateInfoAdShowModal, on
                 const InfoAd = InfoAdValues(values);
                 await UpdateOneSubdocument (idProd,'info_ad', InfoAd.IdEtiquetaOK, InfoAd)
                 setMensajeExitoAlert("Información adicional actualizada correctamente");
-                onInfoAdUpdated(InfoAd);
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setUpdateInfoAdShowModal(false); // Cerrar el modal después del retraso
+                  onInfoAdUpdated(InfoAd); // Actualizar tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo actualizar la información adicional");
@@ -172,7 +175,6 @@ const UpdateInfoAdModal = ({ updateInfoAdShowModal, setUpdateInfoAdShowModal, on
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setUpdateInfoAdShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>

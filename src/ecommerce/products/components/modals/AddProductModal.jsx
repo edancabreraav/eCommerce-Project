@@ -54,7 +54,7 @@ const AddProductModal = ({ AddProductShowModal, setAddProductShowModal, onProduc
         setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
           setAddProductShowModal(false); // Cerrar el modal después del retraso
           onProductAdded(); // Actualizar lista de productos
-        }, 1000);
+        }, 2000);
       } catch (e) {
         setMensajeExitoAlert(null);
         setMensajeErrorAlert("No se pudo crear el Producto");

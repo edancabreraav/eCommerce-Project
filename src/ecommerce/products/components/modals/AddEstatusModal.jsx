@@ -37,7 +37,10 @@ const AddEstatusModal = ({ addEstatusShowModal, setAddEstatusShowModal, onEstatu
                 const Estatus = EstatusValues(values);
                 await AddOneSubdocument (idProd,'estatus', Estatus)
                 setMensajeExitoAlert("Estatus creado y guardado correctamente");
-                onEstatusAdded();
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setAddEstatusShowModal(false); // Cerrar el modal después del retraso
+                  onEstatusAdded(); // Actualizar lista tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo crear el Estatus");
@@ -139,7 +142,6 @@ const AddEstatusModal = ({ addEstatusShowModal, setAddEstatusShowModal, onEstatu
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setAddEstatusShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>

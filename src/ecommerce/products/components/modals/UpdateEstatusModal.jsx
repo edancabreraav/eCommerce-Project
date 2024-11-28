@@ -38,7 +38,10 @@ const UpdateEstatusModal = ({ updateEstatusShowModal, setUpdateEstatusShowModal,
                 console.log(idProd)
                 const updatedEstatus = await UpdateOneSubdocument (idProd,'estatus', Estatus.IdTipoEstatusOK, Estatus)
                 setMensajeExitoAlert("Estatus actualizado correctamente");
-                onEstatusUpdated(updatedEstatus);
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setUpdateEstatusShowModal(false); // Cerrar el modal después del retraso
+                  onEstatusUpdated(updatedEstatus);; // Actualizar lista de productos
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo actualizar el Estatus");
@@ -141,7 +144,6 @@ const UpdateEstatusModal = ({ updateEstatusShowModal, setUpdateEstatusShowModal,
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setUpdateEstatusShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>
