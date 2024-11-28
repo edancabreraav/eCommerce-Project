@@ -76,6 +76,10 @@ const ProductsColumns = [
       const Estatus = selectedRows[0]?.original; //Guardamos la información de la Presentación seleccionada
       setSelectedEstatus(Estatus);
       setDeletePresentacionEstatusShowModal(true);
+      const IdEstatusOK = Estatus[Object.keys(Estatus)[0]] //Extraemos el id
+
+       await delOnePresentacionSubdocument(datosSeleccionados.IdProdServOK, datosSubDocSeleccionados.IdPresentaOK, 'estatus', IdEstatusOK);
+       await fetchData();
     }
 
     const handleEditClick = (table) => {
@@ -87,6 +91,10 @@ const ProductsColumns = [
       const Estatus = selectedRows[0]?.original; //Información del Estatus seleccionado
       setSelectedEstatus(Estatus);
       setUpdatePresentacionEstatusShowModal(true);
+    };
+
+    const sendDataRow = async (rowData) => {
+      setSelectedEstatus(rowData.original);
     };
 
     return (
@@ -101,7 +109,7 @@ const ProductsColumns = [
              enableMultiRowSelection={false}
              muiTableBodyRowProps={({row}) => ({
               onClick: row.getToggleSelectedHandler(),
-              // onClickCapture: () => sendDataRow(row),
+              onClickCapture: () => sendDataRow(row),
               sx: {cursor: 'pointer'},
             })}
              renderTopToolbarCustomActions={({ table }) => (
@@ -122,11 +130,6 @@ const ProductsColumns = [
                       <Tooltip title="Eliminar">
                         <IconButton onClick={() => handleDelClick(table)}>
                           <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Detalles ">
-                        <IconButton>
-                          <InfoIcon />
                         </IconButton>
                       </Tooltip>
                       <text class="PSeleccionado">Producto seleccionado: <b>{selectedProduct}</b></text>

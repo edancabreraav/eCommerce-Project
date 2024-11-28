@@ -10,6 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddPresentacionModal from '../modals/AddPresentacionModal';
 import UpdatePresentacionModal from '../modals/UpdatePresentacionModal';
 import {delOneSubdocument} from '../../services/remote/delete/delOneSubdocument'
+import DetallesPresentacionesModal from '../modals/DetallesPresentacionesModal';
 
 //Arreglo para las columnas
 const ProductsColumns = [
@@ -50,13 +51,14 @@ const ProductsColumns = [
     const [productsData, setProductData] = useState([]);
     const [addPresentacionShowModal, setAddPresentacionShowModal] = useState(false);
     const [updatePresentacionShowModal, setUpdatePresentacionShowModal] = useState(false);
-    const [selectedPresentacion, setSelectedPresentacion] = useState(null);
     const [selectedProduct, setselectedProduct] = useState(null);
     const [codigoBarras, setCodigoBarras] = useState(null);
 
     const [deletePresentacionShowModal, setDeletePresentacionShowModal] = useState(false);
     const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
     const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
+    const [detallesPresentacionesShowModal, setDetallesPresentacionesShowModal] = useState(false);
+    const [selectedPresentacion, setSelectedPresentacion] = useState([]);
 
    
     const fetchData = async () => {
@@ -83,15 +85,15 @@ const ProductsColumns = [
         fetchData();
     }, []);
 
-    const sendDataRow = (rowData) => {
+    const sendDataRow = async (rowData) => {
       // Accede a los datos necesarios del registro (rowData) y llama a tu método
       const {IdPresentaOK} = rowData.original;
       const {index} = rowData;
-      // Mostrar en consola los datos del registro
-      console.log("IdPresentaOK: ", IdPresentaOK);
-      console.log("index", index)
+      
       // Actualizar el estado de los datos seleccionados
-      setDatosSubDocSeleccionados({IdPresentaOK, index});
+       setDatosSubDocSeleccionados({IdPresentaOK, index});
+      const datos = rowData.original;
+      setSelectedPresentacion(datos);
     };
     
     const handleDelClick = async (table) => {
@@ -154,7 +156,7 @@ const ProductsColumns = [
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Detalles ">
-                        <IconButton>
+                        <IconButton onClick={() => setDetallesPresentacionesShowModal(true)}>
                           <InfoIcon />
                         </IconButton>
                       </Tooltip>
@@ -178,6 +180,7 @@ const ProductsColumns = [
               CB = {codigoBarras}
             />
           </Dialog>
+
           <Dialog open={updatePresentacionShowModal}>
             <UpdatePresentacionModal
               updatePresentacionShowModal={updatePresentacionShowModal}
@@ -220,6 +223,14 @@ const ProductsColumns = [
                   </Alert>
                 )}
               </DialogActions>
+          </Dialog>
+          
+          <Dialog open={detallesPresentacionesShowModal}>
+              <DetallesPresentacionesModal 
+                detallesPresentacionesShowModal={detallesPresentacionesShowModal}
+                setDetallesPresentacionesShowModal={setDetallesPresentacionesShowModal}
+                presentacionData={selectedPresentacion}
+              />
           </Dialog>
         </Box>
       );

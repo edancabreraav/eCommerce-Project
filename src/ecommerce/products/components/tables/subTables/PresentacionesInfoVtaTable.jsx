@@ -10,6 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddPresentacionInfoVtaModal from '../../modals/subModals/AddPresentacionInfoVtaModal';
 import UpdatePresentacionInfoVtaModal from '../../modals/subModals/UpdatePresentacionInfoVtaModal';
 import { delOnePresentacionSubdocument } from '../../../services/remote/delete/delOnePresentacionSubdocument';
+import DetallesPresentacionInfoVtaModal from '../../modals/subModals/DetallesPresentacionInfoVta';
 
 //Arreglo para las columnas
 const ProductsColumns = [
@@ -45,12 +46,13 @@ const ProductsColumns = [
     const [productsData, setProductData] = useState([]);
     const [addPresentacionInfoVtaShowModal, setAddPresentacionInfoVtaShowModal] = useState(false);
     const [updatePresentacionInfoVtaShowModal, setUpdatePresentacionInfoVtaShowModal] = useState(false);
-    const [selectedInfoVta, setSelectedInfoVta] = useState(null);
     const [selectedProduct, setselectedProduct] = useState(null);
 
     const [deletePresentacionInfoVtaShowModal, setDeletePresentacionInfoVtaShowModal] = useState(false);
     const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
     const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
+    const [detallesPresentacionInfoVtaShowModal, setDetallesPresentacionInfoVtaShowModal] = useState(false);
+    const [selectedInfoVta, setSelectedInfoVta] = useState([]);
 
    
     const fetchData = async () => {
@@ -99,6 +101,10 @@ const ProductsColumns = [
       setUpdatePresentacionInfoVtaShowModal(true);
     };
 
+    const sendDataRow = (rowData) => {
+      setSelectedInfoVta(rowData.original);
+    };
+
     return (
         <Box>
           <Box>
@@ -111,7 +117,7 @@ const ProductsColumns = [
              enableMultiRowSelection={false}
              muiTableBodyRowProps={({row}) => ({
               onClick: row.getToggleSelectedHandler(),
-              // onClickCapture: () => sendDataRow(row),
+              onClickCapture: () => sendDataRow(row),
               sx: {cursor: 'pointer'},
             })}
              renderTopToolbarCustomActions={({ table }) => (
@@ -135,7 +141,7 @@ const ProductsColumns = [
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Detalles ">
-                        <IconButton>
+                        <IconButton onClick={() => setDetallesPresentacionInfoVtaShowModal(true)}>
                           <InfoIcon />
                         </IconButton>
                       </Tooltip>
@@ -158,6 +164,7 @@ const ProductsColumns = [
               idPres = {datosSubDocSeleccionados.IdPresentaOK}
             />
           </Dialog>
+
           <Dialog open={updatePresentacionInfoVtaShowModal}>
             <UpdatePresentacionInfoVtaModal
               updatePresentacionInfoVtaShowModal={updatePresentacionInfoVtaShowModal}
@@ -199,6 +206,14 @@ const ProductsColumns = [
                   </Alert>
                 )}
             </DialogActions>
+          </Dialog>
+
+          <Dialog open={detallesPresentacionInfoVtaShowModal}>
+            <DetallesPresentacionInfoVtaModal 
+              detallesPresentacionInfoVtaShowModal={detallesPresentacionInfoVtaShowModal}
+              setDetallesPresentacionInfoVtaShowModal={setDetallesPresentacionInfoVtaShowModal}
+              presentacionInfoVtaData={selectedInfoVta}
+            />
           </Dialog>
         </Box>
       );

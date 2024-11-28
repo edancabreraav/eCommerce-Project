@@ -9,6 +9,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import AddPresentacionArchivoModal from '../../modals/subModals/AddPresentacionArchivoModal';
 import UpdatePresentacionArchivoModal from '../../modals/subModals/UpdatePresentacionArchivoModal';
+import DetallesPresentacionArchivoModal from '../../modals/subModals/DetallesPresentacionArchivo';
+
 import { delOnePresentacionSubdocument } from '../../../services/remote/delete/delOnePresentacionSubdocument';
 
 //Arreglo para las columnas
@@ -19,45 +21,30 @@ const ProductsColumns = [
       size: 30, //small column
     },
     {
-        accessorKey: "IdArchivoBK",
-        header: "ID ARCHIVO BK",
-      size: 30, //small column
-    },
-    {
       accessorKey: "DesArchivo",
       header: "DESCRIPCION",
       size: 30, //small column
     },
     {
-        accessorKey: "RutaArchivo",
-        header: "RUTA",
-        size: 30, //small column
-      },
-      {
-        accessorKey: "Path",
-        header: "PATH",
-        size: 30, //small column
-      },
-      {
-        accessorKey: "IdTipoArchivoOK",
-        header: "ID TIPO ARCHIVO OK",
-        size: 30, //small column
-      },
-      {
-        accessorKey: "IdTipoSeccionOK",
-        header: "ID TIPO SECCION OK",
-        size: 30, //small column
-      },
-      {
-        accessorKey: "Secuencia",
-        header: "SECUENCIA",
-        size: 30, //small column
-      },
-      {
-        accessorKey: "Principal",
-        header: "PRINCIPAL",
-        size: 30, //small column
-      },
+      accessorKey: "IdTipoArchivoOK",
+      header: "ID TIPO ARCHIVO OK",
+      size: 30, //small column
+    },
+    {
+      accessorKey: "IdTipoSeccionOK",
+      header: "ID TIPO SECCION OK",
+      size: 30, //small column
+    },
+    {
+      accessorKey: "Secuencia",
+      header: "SECUENCIA",
+      size: 30, //small column
+    },
+    {
+      accessorKey: "Principal",
+      header: "PRINCIPAL",
+      size: 30, //small column
+    },
   ];
  
   const PresentacionesArchivosTable = ({datosSeleccionados, datosSubDocSeleccionados}) => {
@@ -65,6 +52,7 @@ const ProductsColumns = [
     const [productsData, setProductData] = useState([]);
     const [addPresentacionArchivoShowModal, setAddPresentacionArchivoShowModal] = useState(false);
     const [updatePresentacionArchivoShowModal, setUpdatePresentacionArchivoShowModal] = useState(false);
+    const [detallesPresentacionArchivoShowModal, setDetallesPresentacionArchivoShowModal] = useState(false);
     const [selectedArchivo, setSelectedArchivo] = useState(null);
     const [selectedProduct, setselectedProduct] = useState(null);
 
@@ -109,6 +97,10 @@ const ProductsColumns = [
       setDeletePresentacionArchivoShowModal(true);
     }
 
+    const sendDataRow = (rowData) => {
+      setSelectedArchivo(rowData.original);
+    };
+
     const handleEditClick = (table) => {
       const selectedRows = table.getSelectedRowModel().flatRows;
       if (selectedRows.length === 0) {
@@ -132,7 +124,7 @@ const ProductsColumns = [
              enableMultiRowSelection={false}
              muiTableBodyRowProps={({row}) => ({
               onClick: row.getToggleSelectedHandler(),
-              // onClickCapture: () => sendDataRow(row),
+              onClickCapture: () => sendDataRow(row),
               sx: {cursor: 'pointer'},
             })}
              renderTopToolbarCustomActions={({ table }) => (
@@ -156,7 +148,7 @@ const ProductsColumns = [
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Detalles ">
-                        <IconButton>
+                        <IconButton onClick={() => setDetallesPresentacionArchivoShowModal(true)}>
                           <InfoIcon />
                         </IconButton>
                       </Tooltip>
@@ -179,6 +171,7 @@ const ProductsColumns = [
               idPres = {datosSubDocSeleccionados.IdPresentaOK}
             />
           </Dialog>
+
           <Dialog open={updatePresentacionArchivoShowModal}>
             <UpdatePresentacionArchivoModal
               updatePresentacionArchivoShowModal={updatePresentacionArchivoShowModal}
@@ -188,6 +181,14 @@ const ProductsColumns = [
               idProd = {datosSeleccionados.IdProdServOK}
               idPres = {datosSubDocSeleccionados.IdPresentaOK}
               archivoData={selectedArchivo}
+            />
+          </Dialog>
+
+          <Dialog open={detallesPresentacionArchivoShowModal}>
+            <DetallesPresentacionArchivoModal 
+              detallesPresentacionArchivoShowModal={detallesPresentacionArchivoShowModal}
+              setDetallesPresentacionArchivoShowModal={setDetallesPresentacionArchivoShowModal}
+              presentacionArchivoData={selectedArchivo}
             />
           </Dialog> 
           {/*Modal de confirmación de eliminación*/}
