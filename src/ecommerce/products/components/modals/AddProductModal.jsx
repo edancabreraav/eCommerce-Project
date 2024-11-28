@@ -23,9 +23,9 @@ const AddProductModal = ({ AddProductShowModal, setAddProductShowModal, onProduc
       Indice: "",
     },
     validationSchema: Yup.object({
-      IdProdServOK: Yup.string().required("Campo requerido") // Solo números
-                                .matches(/^[0-9]+(-[0-9]+)?$/,
-                                          'Solo se permiten números y no debe terminar en "-" o contener mas de uno de estos'),
+      IdProdServOK: Yup.string().required("Campo requerido") // String pero sin espación, no puede terminar en '-' tampoco
+                                .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                          'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
 
       IdProdServBK: Yup.string().required("Campo requerido") // Letras y números
                                 .matches(/^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)$/,

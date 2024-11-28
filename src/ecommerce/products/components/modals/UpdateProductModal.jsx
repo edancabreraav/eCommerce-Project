@@ -22,9 +22,9 @@ const UpdateProductModal = ({ UpdateProductShowModal, setUpdateProductShowModal,
       Indice: productData?.Indice|| "",
     },
     validationSchema: Yup.object({
-      IdProdServOK: Yup.string().required("Campo requerido")// Solo números y guión, pero no puede terminar en guión
-                                .matches(/^[0-9]+(?:-[a-zA-Z0-9]+)*$/,
-                                          'Solo se permiten números'),
+      IdProdServOK: Yup.string().required("Campo requerido")// String pero sin espación, no puede terminar en '-' tampoco
+                                .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
+                                          'Solo se permiten caracteres alfanuméricos y el simbolo "-"'),
 
       IdProdServBK: Yup.string().required("Campo requerido")// Alfanuméricos
                                 .matches(/^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*$/,
