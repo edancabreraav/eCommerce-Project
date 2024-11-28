@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {getOneProduct} from '../../services/remote/get/getOneProduct'
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Stack, Tooltip, Button, IconButton, Dialog } from "@mui/material";
+import { Box, Stack, Tooltip, Button, IconButton, Dialog, DialogContent, DialogTitle, DialogActions, Typography, Alert } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
@@ -36,6 +36,10 @@ const ProductsColumns = [
     const [addEstatusShowModal, setAddEstatusShowModal] = useState(false);
     const [updateEstatusShowModal, setUpdateEstatusShowModal] = useState(false);
     const [selectedEstatus, setSelectedEstatus] = useState(null);
+
+    const [deleteEstatusShowModal, setDeleteEstatusShowModal] = useState(false);
+    const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
+    const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
    
     const fetchData = async () => {
       setLoadingTable(true);
@@ -58,18 +62,19 @@ const ProductsColumns = [
         fetchData();
     }, []);
 
-    //Función para manejar la lógica de eliminar un Estatus
+    //Función para guardar el estatus a eliminar y mostrar la modal de confirmación de eliminación
     const handleDelClick = async (table) => {
+      setMensajeErrorAlert(null);
+      setMensajeExitoAlert(null);
       const selectedRows = table.getSelectedRowModel().flatRows;
       if (selectedRows.length === 0) {
           alert("Selecciona una fila para borrar");
           return;
       }
       const Estatus = selectedRows[0]?.original; //Guardamos la información del Estatus seleccionado
-      const IdEstatusOK = Estatus[Object.keys(Estatus)[0]] //Extraemos el id
-
-      await delOneSubdocument(datosSeleccionados.IdProdServOK, 'estatus', IdEstatusOK);
-      await fetchData();
+      console.log(Estatus)
+      setSelectedEstatus(Estatus);
+      setDeleteEstatusShowModal(true)
     }
 
     const handleEditClick = (table) => {
@@ -149,6 +154,41 @@ const ProductsColumns = [
               idProd = {datosSeleccionados.IdProdServOK}
               estatusData = {selectedEstatus}
             />
+          </Dialog>
+          {/*Modal de confirmación de eliminación*/}
+          <Dialog open={deleteEstatusShowModal} fullWidth>
+              <DialogTitle sx={{ textAlign: "center" }}>Confirmar eliminación</DialogTitle>
+              <DialogContent><Typography variant='h6' sx={{ textAlign: "center" }}>¿Eliminar: <strong>{selectedEstatus?.IdTipoEstatusOK
+              }?</strong></Typography></DialogContent>
+              <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
+                <Button variant='contained' color='error' fullWidth
+                onClick={async () => {
+                  try {
+                    await delOneSubdocument(datosSeleccionados.IdProdServOK,  'estatus', selectedEstatus?.IdTipoEstatusOK
+                    );
+                    setMensajeExitoAlert('Estatus eliminado');
+                    setTimeout(() => {
+                      setDeleteEstatusShowModal(false);
+                      fetchData();
+                    }, 2000);
+                  } catch (error) {
+                    setMensajeExitoAlert(null);
+                    setMensajeErrorAlert('No se pudo eliminar el estatus', error)
+                  }
+                }}
+                >Eliminar</Button>
+                <Button variant='outlined' fullWidth sx={{m:2}} onClick={() => setDeleteEstatusShowModal(false)}>Cancelar</Button>
+                {mensajeErrorAlert && (
+                  <Alert severity="error" >
+                    <b>¡ERROR!</b> ─ {mensajeErrorAlert}
+                  </Alert>
+                )}
+                {mensajeExitoAlert && (
+                  <Alert severity="success" >
+                    <b>¡ÉXITO!</b> ─ {mensajeExitoAlert}
+                  </Alert>
+                )}
+              </DialogActions>
           </Dialog>
         </Box>
       );

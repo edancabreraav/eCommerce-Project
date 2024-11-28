@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {getOneProduct} from '../../services/remote/get/getOneProduct'
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Stack, Tooltip, Button, IconButton, Dialog } from "@mui/material";
+import { Box, Stack, Tooltip, Button, IconButton, Dialog, DialogContent, DialogTitle, DialogActions, Typography, Alert } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import InfoIcon from "@mui/icons-material/Info";
@@ -52,6 +52,10 @@ const ProductsColumns = [
     const [updatePresentacionShowModal, setUpdatePresentacionShowModal] = useState(false);
     const [selectedPresentacion, setSelectedPresentacion] = useState(null);
 
+    const [deletePresentacionShowModal, setDeletePresentacionShowModal] = useState(false);
+    const [mensajeErrorAlert, setMensajeErrorAlert] = useState("");
+    const [mensajeExitoAlert, setMensajeExitoAlert] = useState("");
+
    
     const fetchData = async () => {
       setLoadingTable(true);
@@ -84,18 +88,18 @@ const ProductsColumns = [
       // Actualizar el estado de los datos seleccionados
       setDatosSubDocSeleccionados({IdPresentaOK, index});
     };
-
+    
     const handleDelClick = async (table) => {
+      setMensajeErrorAlert(null);
+      setMensajeExitoAlert(null);
       const selectedRows = table.getSelectedRowModel().flatRows;
       if (selectedRows.length === 0) {
           alert("Selecciona una fila para borrar");
           return;
       }
       const Presentacion = selectedRows[0]?.original; //Guardamos la información de la Presentación seleccionada
-      const IdPresentacionOK = Presentacion[Object.keys(Presentacion)[0]] //Extraemos el id
-
-       await delOneSubdocument(datosSeleccionados.IdProdServOK, 'presentaciones', IdPresentacionOK);
-       await fetchData();
+      setSelectedPresentacion(Presentacion);
+      setDeletePresentacionShowModal(true);
     }
 
     const handleEditClick = (table) => {
@@ -175,6 +179,40 @@ const ProductsColumns = [
               idProd = {datosSeleccionados.IdProdServOK}
               presentacionData={selectedPresentacion}
             />
+          </Dialog>
+          {/*Modal de confirmación de eliminación*/}
+          <Dialog open={deletePresentacionShowModal} fullWidth>
+              <DialogTitle sx={{ textAlign: "center" }}>Confirmar eliminación</DialogTitle>
+              <DialogContent><Typography variant='h6' sx={{ textAlign: "center" }}>¿Eliminar:<strong>{selectedPresentacion?.IdPresentaOK}</strong>?</Typography></DialogContent>
+              <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
+                <Button variant='contained' color='error' fullWidth
+                onClick={async () => {
+                  try {
+                    await delOneSubdocument(datosSeleccionados.IdProdServOK, 'presentaciones', selectedPresentacion.IdPresentaOK);
+                    setMensajeExitoAlert('Presentación eliminada');
+                    setTimeout(() => {
+                      setDeletePresentacionShowModal(false);
+                      fetchData();
+                    }, 2000);
+                    fetchData();
+                  } catch (error) {
+                    setMensajeExitoAlert(null);
+                  setMensajeErrorAlert("No se pudo eliminar la presentación", error);
+                  }
+                }}
+                >Eliminar</Button>
+                <Button variant='outlined' fullWidth sx={{m:2}} onClick={()=> setDeletePresentacionShowModal(false)}>Cancelar</Button>
+                {mensajeErrorAlert && (
+                  <Alert severity="error" >
+                    <b>¡ERROR!</b> ─ {mensajeErrorAlert}
+                  </Alert>
+                )}
+                {mensajeExitoAlert && (
+                  <Alert severity="success" >
+                    <b>¡ÉXITO!</b> ─ {mensajeExitoAlert}
+                  </Alert>
+                )}
+              </DialogActions>
           </Dialog>
         </Box>
       );
