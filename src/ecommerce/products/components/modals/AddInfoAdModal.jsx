@@ -41,7 +41,10 @@ const AddInfoAdModal = ({ addInfoAdShowModal, setAddInfoAdShowModal, onInfoAdAdd
                 const InfoAd = InfoAdValues(values);
                 await AddOneSubdocument (idProd,'info_ad', InfoAd)
                 setMensajeExitoAlert("Información adicioonal añadida y guardada correctamente");
-                onInfoAdAdded();
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setAddInfoAdShowModal(false); // Cerrar el modal después del retraso
+                  onInfoAdAdded(); // Actualizar tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo crear la información adicional");
@@ -163,7 +166,6 @@ const AddInfoAdModal = ({ addInfoAdShowModal, setAddInfoAdShowModal, onInfoAdAdd
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setAddInfoAdShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>

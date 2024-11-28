@@ -45,7 +45,10 @@ const UpdatePresentacionModal = ({ updatePresentacionShowModal, setUpdatePresent
                 const Presentacion = PresentacionesValues(values);
                 const updatedPresentacion = await UpdatePresentacion(idProd,Presentacion.IdPresentaOK, Presentacion)
                 setMensajeExitoAlert("Presentación actualizada correctamente");
-                onPresentacionUpdated(updatedPresentacion);
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setUpdatePresentacionShowModal(false); // Cerrar el modal después del retraso
+                  onPresentacionUpdated(updatedPresentacion); // Actualizar tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo actualizar la presentación");
@@ -182,7 +185,6 @@ const UpdatePresentacionModal = ({ updatePresentacionShowModal, setUpdatePresent
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setUpdatePresentacionShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>

@@ -44,7 +44,10 @@ const AddPresentacionModal = ({ addPresentacionShowModal, setAddPresentacionShow
                 const Presentacion = PresentacionesValues(values);
                 await AddOneSubdocument (idProd,'presentaciones', Presentacion)
                 setMensajeExitoAlert("Presentación creada y guardada correctamente");
-                onPresentacionAdded();
+                setTimeout(() => { //Timeout para alcanzar a visualizar el mensaje de éxito
+                  setAddPresentacionShowModal(false); // Cerrar el modal después del retraso
+                  onPresentacionAdded(); // Actualizar tabla
+                }, 2000);
             } catch (error) {
                 setMensajeExitoAlert(null);
                 setMensajeErrorAlert("No se pudo agregar la presentación");
@@ -180,7 +183,6 @@ const AddPresentacionModal = ({ addPresentacionShowModal, setAddPresentacionShow
                 variant="contained"
                 type="submit"
                 disabled={!!mensajeExitoAlert}
-                onClick={() => setAddPresentacionShowModal(false)}
                 loading={Loading}
               >
                 <span>GUARDAR</span>
