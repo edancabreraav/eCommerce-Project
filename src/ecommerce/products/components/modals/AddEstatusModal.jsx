@@ -18,7 +18,7 @@ const AddEstatusModal = ({ addEstatusShowModal, setAddEstatusShowModal, onEstatu
     const formik = useFormik({
         initialValues: {
           IdTipoEstatusOK: "",
-          Actual: "",
+          Actual: "S",
           Observacion: "",
         },
         validationSchema: Yup.object({
@@ -95,6 +95,7 @@ const AddEstatusModal = ({ addEstatusShowModal, setAddEstatusShowModal, onEstatu
                 helperText={
                   formik.touched.Actual && formik.errors.Actual
                 }
+                disabled
               />
               <TextField
                 id="Observacion"
