@@ -23,7 +23,7 @@ const UpdateEstatusModal = ({ updateEstatusShowModal, setUpdateEstatusShowModal,
         },
         validationSchema: Yup.object({
           IdTipoEstatusOK:  Yup.string().required("Campo requerido") // String, solo letras y sin espacios
-                                        .matches(/^[a-zA-Z]+$/,
+                                        .matches(/^[a-zA-Z]+(-[a-zA-Z]+)$/,
                                                   'Solo se permiten letras.'),
 
           Observacion: Yup.string(), //No tiene que tener contenido
@@ -94,7 +94,6 @@ const UpdateEstatusModal = ({ updateEstatusShowModal, setUpdateEstatusShowModal,
                 label="Actual*"
                 value={formik.values.Actual}
                 {...commonTextFieldProps}
-                disabled
                 error={
                   formik.touched.Actual && Boolean(formik.errors.Actual)
                 }

@@ -20,7 +20,7 @@ const AddPresentacionEstatusModal = ({ addPresentacionEstatusShowModal, setAddPr
     const formik = useFormik({
         initialValues: {
           IdTipoEstatusOK: "",
-          Actual: "",
+          Actual: "S",
           Observacion: "",
         },
         validationSchema: Yup.object({
@@ -91,27 +91,18 @@ const AddPresentacionEstatusModal = ({ addPresentacionEstatusShowModal, setAddPr
             >
               {/* Campos de captura */}
               
-              <Select
+              <TextField
                 id="IdTipoEstatusOK"
-                value={formik.values.IdTipoEstatusOK || ""}
-                onChange={ (event) => formik.setFieldValue("IdTipoEstatusOK", event.target.value) }
-                fullWidth
-                displayEmpty
+                label="IdTipoEstatusOK*"
+                value={formik.values.IdTipoEstatusOK}
+                {...commonTextFieldProps}
                 error={
-                    formik.touched.IdTipoEstatusOK &&
-                    Boolean(formik.errors.IdTipoEstatusOK)
-                }>
-                <MenuItem value="" disabled>
-                    Seleccione una opción
-                </MenuItem>
-                {opciones.map((opcion) => (
-                    <MenuItem 
-                        key={opcion.IdTipoEstatusOK} 
-                        value={opcion.IdTipoEstatusOK}>
-                        {opcion.IdTipoEstatusOK}
-                    </MenuItem>
-                ))}
-              </Select>
+                  formik.touched.IdTipoEstatusOK && Boolean(formik.errors.IdTipoEstatusOK)
+                }
+                helperText={
+                  formik.touched.IdTipoEstatusOK && formik.errors.IdTipoEstatusOK
+                }
+              />
 
               <TextField
                 id="Observacion"
