@@ -38,7 +38,7 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
 
             DesArchivo: Yup.string(), //Puede estar vacio
 
-            RutaArchivo: Yup.string().required("Campo requerido") // Ruta de firebase que la verdad se la pedí a chatgpt
+            RutaArchivo: Yup.string().required("Campo requerido") // Ruta de firebase 
                                       .matches(  
                                       /^https:\/\/firebasestorage\.googleapis\.com\/v0\/b\/[\w.-]+\/o\/[\w%./-]+(\?alt=media&token=[\w-]+)?$/,
                                       'La ruta del archivo debe ser una URL válida de Firebase Storage'),
@@ -61,6 +61,10 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
             Secuencia:  Yup.number().required("Campo requerido") // Número mayor a 0
                                     .integer("Debe ser un número entero")
                                     .min(1, "Debe ser mayor o igual a 1"),
+
+            Principal:  Yup.string().required("Campo requerido") // Solo S o N, no mas no menos
+                                    .max(1, 'Solo se permite una letra')
+                                    .matches(/^[SN]$/, 'Solo se permite un caracter S/N'),               
         }),
         onSubmit: async (values) => {
             setLoading(true);
@@ -191,6 +195,16 @@ const AddPresentacionArchivoModal = ({ addPresentacionArchivoShowModal, setAddPr
                   formik.touched.Secuencia && Boolean(formik.errors.Secuencia)
                 }
                 helperText={formik.touched.Secuencia && formik.errors.Secuencia}
+              />
+              <TextField
+                id="Principal"
+                label="Principal*"
+                value={formik.values.Principal}
+                {...commonTextFieldProps}
+                error={
+                  formik.touched.Principal && Boolean(formik.errors.Principal)
+                }
+                helperText={formik.touched.Principal && formik.errors.Principal}
               />
             </DialogContent>
             {/* Acciones de usuario */}
