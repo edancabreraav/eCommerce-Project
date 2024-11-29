@@ -84,6 +84,8 @@ const ProductsColumns = [
 
     //Función para guardar la información a eliminar y mostrar la modal de confirmación de eliminación
     const handleDelClick = async (table) => {
+      setMensajeErrorAlert(null);
+      setMensajeExitoAlert(null);
       const selectedRows = table.getSelectedRowModel().flatRows;
       if (selectedRows.length === 0) {
           alert("Selecciona una fila para borrar");
